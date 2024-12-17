@@ -16,4 +16,4 @@ CREATE TABLE owner (
 );
 
 -- 5. Confirmación de creación
-COMMENT ON TABLE owner IS 'Tabla que contiene información de propietarios.';
+COMMENT ON TABLE owner IS 'Tabla de propietarios.';
