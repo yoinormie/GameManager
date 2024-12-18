@@ -1,10 +1,7 @@
 package com.yoi.GameManager.Model.Entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Date;
 
@@ -12,8 +9,7 @@ import java.sql.Date;
 @Table(name = "game")
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class Game {
 
     @Id

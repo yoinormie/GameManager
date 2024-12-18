@@ -9,9 +9,7 @@ import java.util.List;
 @Table(name = "owner")
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
+@Data
 public class Owner {
     @Id()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
