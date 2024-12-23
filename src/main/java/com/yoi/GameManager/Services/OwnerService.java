@@ -1,5 +1,6 @@
 package com.yoi.GameManager.Services;
 
+import com.yoi.GameManager.Model.DTO.OwnerDTO;
 import com.yoi.GameManager.Model.Entity.Owner;
 import com.yoi.GameManager.Repositories.OwnerRepository;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,13 @@ public class OwnerService {
     }
 
 
-    public List<Owner> getAllOwners(){
-        return ownerRepository.findAll();
+    public ResponseEntity<List<OwnerDTO>> getAllOwners(){
+        List<OwnerDTO> ownerDTOList = ownerRepository.findAll().stream().map(OwnerDTO::new).toList();
+        return ResponseEntity.status(HttpStatus.OK).body(ownerDTOList);
+    }
+
+    public ResponseEntity<OwnerDTO> createOwner(Owner owner){
+        Owner saved = ownerRepository.save(owner);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new OwnerDTO(saved));
     }
 }
