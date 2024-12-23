@@ -1,5 +1,6 @@
 package com.yoi.GameManager.Model.DTO;
 
+import com.yoi.GameManager.Model.Entity.Owner;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,6 +22,12 @@ public class OwnerDTO {
         this.name = name;
         this.first_surname = first_surname;
         this.second_surname = second_surname;
+    }
+
+    public OwnerDTO(Owner saved) {
+        this.name = saved.getName();
+        this.first_surname = saved.getFirst_surname();
+        this.second_surname = saved.getSecond_surname();
     }
 
     public long getId() {
