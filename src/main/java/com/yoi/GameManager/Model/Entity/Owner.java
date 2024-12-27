@@ -16,7 +16,7 @@ public class Owner {
     private long id;
     @Column(name = "name",nullable = false)
     private String name;
-    @Column(name = "first_surname")
+    @Column(name = "first_surname", nullable = false)
     private String first_surname;
     @Column(name = "second_surname")
     private String second_surname;
