@@ -29,14 +29,11 @@ public class OwnerService {
 
     public ResponseEntity<OwnerDTO> getOwnerById(Long id){
         Optional<Owner> gotten = ownerRepository.findById(id);
-
         if(gotten.isPresent()){
             return ResponseEntity.status(HttpStatus.OK).body(new OwnerDTO(gotten
                     .orElse(null)));
         }
-
-        throw new OwnerNotFound(id, "El usuario no fue encontrado: ");
-        //return ResponseEntity.status(HttpStatus.OK).body(new OwnerDTO(gotten));
+        throw new OwnerNotFound(id);
     }
 
     public ResponseEntity<OwnerDTO> createOwner(Owner owner){
@@ -54,7 +51,7 @@ public class OwnerService {
             ownerRepository.save(existingOwner);
             return ResponseEntity.status(HttpStatus.OK).body(new OwnerDTO(existingOwner));
         }
-        throw new OwnerNotFound(id, "El usuario no fue encontrado: ");
+        throw new OwnerNotFound(id);
     }
 
     public ResponseEntity deleteOwner(Long id){
@@ -64,6 +61,6 @@ public class OwnerService {
             ownerRepository.delete(existingOwner);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
-        throw new OwnerNotFound(id, "El usuario no existe: ");
+        throw new OwnerNotFound(id);
     }
 }
