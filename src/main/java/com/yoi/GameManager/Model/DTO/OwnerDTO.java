@@ -26,8 +26,8 @@ public class OwnerDTO {
 
     public OwnerDTO(Owner saved) {
         this.name = saved.getName();
-        this.first_surname = saved.getFirst_surname();
-        this.second_surname = saved.getSecond_surname();
+        this.first_surname = saved.getFirstSurname();
+        this.second_surname = saved.getSecondSurname();
     }
 
     public long getId() {
