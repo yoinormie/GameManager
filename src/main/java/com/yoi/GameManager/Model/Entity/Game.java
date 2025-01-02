@@ -2,11 +2,13 @@ package com.yoi.GameManager.Model.Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.sql.Date;
 
 @Entity
 @Table(name = "game")
+@Document(collection = "Game")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
