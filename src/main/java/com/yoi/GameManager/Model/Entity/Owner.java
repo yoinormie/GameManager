@@ -14,13 +14,16 @@ import java.util.List;
 @Data
 public class Owner {
     @Id()
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //private long id;
+    private String UUID;
     @Column(name = "name",nullable = false)
     private String name;
     @Column(name = "first_surname", nullable = false)
     private String firstSurname;
     @Column(name = "second_surname")
     private String secondSurname;
-
+    @JoinColumn(name = "userid", unique = true, nullable = false, table = "")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private User userId;
 }

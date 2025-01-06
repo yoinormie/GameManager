@@ -1,74 +1,40 @@
 package com.yoi.GameManager.Model.DTO;
 
 import com.yoi.GameManager.Model.Entity.Owner;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.yoi.GameManager.Model.Entity.User;
+import lombok.Data;
+import lombok.ToString;
 
+@Data
+@ToString
 public class OwnerDTO {
 
-    private long id;
+
+    private String UUID;
     private String name;
-    private String first_surname;
-    private String second_surname;
+    private String firstSurname;
+    private String secondSurname;
+    private User userId;
+
 
 
     public OwnerDTO() {
     }
 
-    public OwnerDTO(long id, String name, String first_surname, String second_surname) {
-        this.id = id;
+    public OwnerDTO(String UUID, String name, String firstSurname, String secondSurname, User userId) {
+        this.UUID = UUID;
         this.name = name;
-        this.first_surname = first_surname;
-        this.second_surname = second_surname;
+        this.firstSurname = firstSurname;
+        this.secondSurname = secondSurname;
+        this.userId = userId;
     }
 
     public OwnerDTO(Owner saved) {
         this.name = saved.getName();
-        this.first_surname = saved.getFirstSurname();
-        this.second_surname = saved.getSecondSurname();
+        this.firstSurname = saved.getFirstSurname();
+        this.secondSurname = saved.getSecondSurname();
+        this.userId = saved.getUserId();
     }
 
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getFirst_surname() {
-        return first_surname;
-    }
-
-    public void setFirst_surname(String first_surname) {
-        this.first_surname = first_surname;
-    }
-
-    public String getSecond_surname() {
-        return second_surname;
-    }
-
-    public void setSecond_surname(String second_surname) {
-        this.second_surname = second_surname;
-    }
-
-    @Override
-    public String toString() {
-        return "OwnerDTO{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", first_surname='" + first_surname + '\'' +
-                ", second_surname='" + second_surname + '\'' +
-                '}';
-    }
 }
