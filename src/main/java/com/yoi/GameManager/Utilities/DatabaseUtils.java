@@ -5,8 +5,8 @@ import java.util.UUID;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 public class DatabaseUtils {
 
-    private String generateUUID(){
-        return UUID.randomUUID().toString();
+    private UUID generateUUID(){
+        return UUID.randomUUID();
     }
 
     private String generateHashedPassword(String password){
