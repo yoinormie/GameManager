@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: gamemanager
+    ports:
+      - "5432:5432"
+    volumes:
+      - /home/yoi/Escritorio/volumes/psql:/var/lib/postgresql/data
+    networks:
+      - app-network
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - /home/yoi/Escritorio/volumes/mongo:/data/db
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
