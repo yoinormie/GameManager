@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "game")
@@ -15,17 +18,23 @@ import java.sql.Date;
 public class Game {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private UUID id_game;
+
     @Column(name = "title",nullable = false)
     private String title;
+
     @Column(name = "developer")
     private String developer;
+
     @Column(name = "publisher")
     private String publisher;
-    @Column(name = "adquisitionDate")
-    private Date adquisitionDate;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn (name = "owner")
-    private Owner owner;
+
+    @Column(name = "release_date")
+    private Date release_date;
+
+    @Column(name = "metacritic_score")
+    private BigDecimal metacritic_score;
+
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ownership> ownershipList;
 }
