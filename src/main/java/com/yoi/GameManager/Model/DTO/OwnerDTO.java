@@ -1,33 +1,28 @@
 package com.yoi.GameManager.Model.DTO;
 
 import com.yoi.GameManager.Model.Entity.Owner;
+import com.yoi.GameManager.Model.Entity.Ownership;
 import com.yoi.GameManager.Model.Entity.User;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.util.List;
+import java.util.UUID;
 
 @Data
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class OwnerDTO {
-
-
-    private String UUID;
+    private UUID UUID_owner;
     private String name;
     private String firstSurname;
     private String secondSurname;
     private User userId;
-
-
-
-    public OwnerDTO() {
-    }
-
-    public OwnerDTO(String UUID, String name, String firstSurname, String secondSurname, User userId) {
-        this.UUID = UUID;
-        this.name = name;
-        this.firstSurname = firstSurname;
-        this.secondSurname = secondSurname;
-        this.userId = userId;
-    }
+    private List<Ownership> ownershipList;
 
     public OwnerDTO(Owner saved) {
         this.name = saved.getName();
