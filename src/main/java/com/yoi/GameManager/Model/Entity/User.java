@@ -30,6 +30,6 @@ public class User {
     @Column(name = "password",nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Owner> ownerList;
 }
