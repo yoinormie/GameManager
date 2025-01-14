@@ -22,14 +22,14 @@ public class GameScore {
     private UUID id_game_score;
 
     @Id
-    @ManyToMany
-    @JoinColumn(name = "id_owner",nullable = false)
-    private UUID id_owner;
+    @ManyToOne
+    @JoinColumn(name = "owner", foreignKey = @ForeignKey(name = "id_owner"))
+    private Owner owner;
 
     @Id
-    @ManyToMany
-    @JoinColumn(name = "id_game",nullable = false)
-    private UUID id_game;
+    @ManyToOne
+    @JoinColumn(name = "game", foreignKey = @ForeignKey(name = "id_game"))
+    private Game game;
 
     @Column(name = "personal_score",nullable = false)
     private BigDecimal personalScore;
