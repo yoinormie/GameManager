@@ -5,8 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import java.util.UUID;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Entity
 @Table(name = "ownership")
@@ -16,13 +15,16 @@ import java.util.UUID;
 @ToString
 public class Ownership {
 
-    @Id
-    @ManyToMany
-    @JoinColumn(name = "id_owner", nullable = false)
-    private UUID id_owner;
+    @EmbeddedId
+    private OwnershipKey id;
 
-    @Id
-    @ManyToMany
-    @JoinColumn(name = "id_game", nullable = false)
-    private UUID id_game;
+    @ManyToOne
+    @MapsId("idOwner")  // Mapea el id a la clave embebida
+    @JoinColumn(name = "id_owner", nullable = false, foreignKey = @ForeignKey(name = "fk_owner"))
+    private Owner owner;  // Relación con la entidad Owner
+
+    @ManyToOne
+    @MapsId("idGame")  // Mapea el id a la clave embebida
+    @JoinColumn(name = "id_game", nullable = false, foreignKey = @ForeignKey(name = "fk_game"))
+    private Game game;  // Relación con la entidad Game
 }
