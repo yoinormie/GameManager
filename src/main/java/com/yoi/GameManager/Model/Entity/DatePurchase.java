@@ -18,17 +18,18 @@ import java.util.UUID;
 @ToString
 public class DatePurchase {
 
-    @Id
-    @ManyToMany
-    @JoinColumn(name = "id_owner",nullable = false)
-    private UUID id_owner;
+    @EmbeddedId
+    private DatePurchaseKey id;
 
-    @Id
-    @ManyToMany
-    @JoinColumn(name = "id_game", nullable = false)
-    private UUID id_game;
+    @ManyToOne
+    @JoinColumn(name = "owner", foreignKey = @ForeignKey(name = "id_owner"), insertable = false,updatable = false)
+    private Owner owner;
 
-    @Id
+    @ManyToOne
+    @JoinColumn(name = "id_game", foreignKey = @ForeignKey(name = "id_game"), insertable = false,updatable = false)
+    private Game game;
+
+    @Column(name = "date_purchase", nullable = false)
     private Date datePurchase;
 
 }
