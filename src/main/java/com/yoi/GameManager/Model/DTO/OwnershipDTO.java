@@ -1,15 +1,19 @@
 package com.yoi.GameManager.Model.DTO;
 
+import com.yoi.GameManager.Model.Entity.Game;
+import com.yoi.GameManager.Model.Entity.Owner;
+import com.yoi.GameManager.Model.Entity.OwnershipKey;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
+
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class OwnershipDTO {
-    private UUID id_owner;
-    private UUID id_game;
+    private OwnershipKey id;
+    private Owner owner;
+    private Game game;
 }
