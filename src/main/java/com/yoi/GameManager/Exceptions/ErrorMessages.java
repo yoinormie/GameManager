@@ -4,14 +4,15 @@ import lombok.Getter;
 
 @Getter
 public enum ErrorMessages {
-    OWNER_NOT_FOUND("El usuario no ha sido encontrado ");
+    USER_NOT_VALID("El usuario no es válido"),
+    USER_NOT_FOUND("El usuario no ha sido encontrado"),
+    UNIDENTIFIED_USER("El usuario que has puesto no ha sido identificado"),
+    OWNER_NOT_FOUND("El propietario no ha sido encontrado ");
 
     private String message;
-    //private int statusCode;
 
     ErrorMessages(String message) {
         this.message = message;
-      //  this.statusCode = statusCode;
     }
 
 
