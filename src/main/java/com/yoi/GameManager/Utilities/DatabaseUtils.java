@@ -5,15 +5,15 @@ import java.util.UUID;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 public class DatabaseUtils {
 
-    private UUID generateUUID(){
+    public UUID generateUUID(){
         return UUID.randomUUID();
     }
 
-    private String generateHashedPassword(String password){
+    public String generateHashedPassword(String password){
         return BCrypt.hashpw(password,BCrypt.gensalt());
     }
 
-    private boolean verifyValidEmail(String email){
+    public boolean verifyValidEmail(String email){
         if(email == null || email.isBlank()){
             return false;
         }
