@@ -2,7 +2,10 @@ package com.yoi.GameManager.Utilities;
 
 
 import java.util.UUID;
+
+import lombok.experimental.UtilityClass;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+@UtilityClass
 public class DatabaseUtils {
 
     public UUID generateUUID(){
