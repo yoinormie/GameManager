@@ -5,8 +5,9 @@ import java.util.UUID;
 
 import lombok.experimental.UtilityClass;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+
 @UtilityClass
-public class DatabaseUtils {
+public final class DatabaseUtils {
 
     public UUID generateUUID(){
         return UUID.randomUUID();
