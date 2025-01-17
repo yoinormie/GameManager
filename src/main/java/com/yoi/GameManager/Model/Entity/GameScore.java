@@ -21,12 +21,12 @@ public class GameScore {
     @Column(name = "id_game_score",nullable = false)
     private UUID id_game_score;
 
-    @Id
+
     @ManyToOne
     @JoinColumn(name = "owner", foreignKey = @ForeignKey(name = "id_owner"))
     private Owner owner;
 
-    @Id
+
     @ManyToOne
     @JoinColumn(name = "game", foreignKey = @ForeignKey(name = "id_game"))
     private Game game;
