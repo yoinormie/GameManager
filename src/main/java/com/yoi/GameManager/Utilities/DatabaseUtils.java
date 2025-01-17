@@ -23,4 +23,8 @@ public final class DatabaseUtils {
         }
         return email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
     }
+
+    public boolean verifyInsertedPassword(String insertedPassword, String checkedPassword){
+        return BCrypt.checkpw(insertedPassword,checkedPassword);
+    }
 }
