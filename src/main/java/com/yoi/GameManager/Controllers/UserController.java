@@ -4,7 +4,6 @@ import com.yoi.GameManager.Model.DTO.UserDTO;
 import com.yoi.GameManager.Model.Entity.User;
 import com.yoi.GameManager.Services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +20,7 @@ public class UserController {
     @Operation(summary = "EndPoint que crea un User")
     @PostMapping()
     public ResponseEntity<UserDTO> createUser(@RequestBody User user){
-        return null;
+        return userService.createUser(user);
     }
 
     @Operation(summary = "EndPoint para obtener un User")
@@ -30,15 +29,15 @@ public class UserController {
         return null;
     }
 
-    @Operation(summary = "EndPoint para actualizar un User")
-    @PutMapping("/{username}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable String username, @RequestParam User user){
-        return null;
+    @Operation(summary = "EndPoint para actualizar el username de un User")
+    @PutMapping("/newName/{username}")
+    public ResponseEntity<UserDTO> updateTheUsername(@PathVariable String username, @RequestParam String password, @RequestBody String newUsername){
+        return userService.modifyTheUsername(username,password,newUsername);
     }
 
-    @Operation(summary = "EndPoint para actualizar un User")
+    @Operation(summary = "EndPoint para borrar un User")
     @DeleteMapping("/{username}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable String username, @RequestParam String password){
-        return null;
+    public ResponseEntity deleteUser(@PathVariable String username, @RequestParam String password){
+        return userService.deleteUser(username,password);
     }
 }
