@@ -52,7 +52,7 @@ public class UserService {
         throw new UserNotFound();
     }
 
-    public ResponseEntity<UserDTO> modifyUser (String username, String password, String newUsername){
+    public ResponseEntity<UserDTO> modifyTheUsername(String username, String password, String newUsername){
         if(userRepositoryJPA.findByName(username).isPresent() && DatabaseUtils.verifyInsertedPassword(password,userRepositoryJPA.findByName(username).get().getPassword())){
             User user = userRepositoryJPA.findByName(username).get();
             user.setName(newUsername);
