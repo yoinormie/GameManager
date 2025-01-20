@@ -42,6 +42,7 @@ public class UserService {
             throw new IncorrectPassword();
         }
         userRepositoryJPA.delete(userToDelete);
+        userRepositoryMongoDB.delete(userToDelete);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

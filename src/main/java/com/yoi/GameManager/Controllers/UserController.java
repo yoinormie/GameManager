@@ -26,7 +26,7 @@ public class UserController {
     @Operation(summary = "EndPoint para obtener un User")
     @GetMapping("/{username}")
     public ResponseEntity<UserDTO> getUser(@PathVariable String username){
-        return null;
+        return userService.getUserByName(username);
     }
 
     @Operation(summary = "EndPoint para actualizar el username de un User")
