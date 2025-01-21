@@ -14,8 +14,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Data
 public class Owner {
-    @Id()
-    private UUID UUID_owner;
+    @Id
+    private UUID id_owner;
 
     @Column(name = "name",nullable = false)
     private String name;
@@ -28,7 +28,7 @@ public class Owner {
 
     @JoinColumn(name = "id_user", unique = true, nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private User userId;
+    private Appuser userId;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ownership> ownershipList;

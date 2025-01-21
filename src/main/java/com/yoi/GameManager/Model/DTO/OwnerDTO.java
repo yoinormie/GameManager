@@ -1,8 +1,8 @@
 package com.yoi.GameManager.Model.DTO;
 
+import com.yoi.GameManager.Model.Entity.Appuser;
 import com.yoi.GameManager.Model.Entity.Owner;
 import com.yoi.GameManager.Model.Entity.Ownership;
-import com.yoi.GameManager.Model.Entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +21,7 @@ public class OwnerDTO {
     private String name;
     private String firstSurname;
     private String secondSurname;
-    private User userId;
+    private Appuser userId;
     private List<Ownership> ownershipList;
 
     public OwnerDTO(Owner saved) {

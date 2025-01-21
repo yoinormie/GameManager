@@ -37,20 +37,23 @@ public class OwnerController {
     @PutMapping("/{id}")
     public ResponseEntity<OwnerDTO> updateOwner(@PathVariable Long id, @RequestBody Owner owner){
         //return ResponseEntity.status(HttpStatus.OK).body("updated owner");
-        return ownerService.updatedOwner(id, owner);
+        //return ownerService.updatedOwner(id, owner);
+        return null;
     }
 
     @Operation(summary = "Obtiene un owner por su id")
     @GetMapping("/{id}")
     public ResponseEntity<OwnerDTO> getOwnerById(@PathVariable Long id){
-        return ownerService.getOwnerById(id);
+        //return ownerService.getOwnerById(id);
+        return null;
     }
 
     @Operation(summary = "Borra a un owner")
     @DeleteMapping("/{id}")
     public ResponseEntity deleteOwner(@PathVariable Long id){
         //return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
-        return ownerService.deleteOwner(id);
+        //return ownerService.deleteOwner(id);
+        return null;
     }
 
 }
