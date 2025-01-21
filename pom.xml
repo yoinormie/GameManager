@@ -47,7 +47,7 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>1.8.0</version> <!-- Asegúrate de usar la última versión -->
+			<version>1.8.0</version>
 		</dependency>
 
 		<!--
@@ -57,6 +57,13 @@
 			<version>6.2.0</version>
 		</dependency>
 		-->
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.18.2</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
