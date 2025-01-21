@@ -1,17 +1,17 @@
-package com.yoi.GameManager.Model.DTO;
+package com.yoi.GameManager.Model.DTO.EntityDTOs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
+import java.sql.Date;
 import java.util.UUID;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class DatePurchaseKeyDTO {
+@AllArgsConstructor
+public class DatePurchaseDTO {
     private UUID id_owner;
     private UUID id_game;
+    private Date datePurchase;
 }

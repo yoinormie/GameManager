@@ -1,4 +1,4 @@
-package com.yoi.GameManager.Model.DTO;
+package com.yoi.GameManager.Model.DTO.EntityDTOs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.yoi.GameManager.Model.DTO;
+package com.yoi.GameManager.Model.DTO.EntityDTOs;
 
 import com.yoi.GameManager.Model.Entity.Game;
 import com.yoi.GameManager.Model.Entity.Owner;

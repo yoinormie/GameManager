@@ -1,9 +1,8 @@
-package com.yoi.GameManager.Model.DTO;
+package com.yoi.GameManager.Model.DTO.EntityDTOs;
 
 import com.yoi.GameManager.Model.Entity.Appuser;
 import com.yoi.GameManager.Model.Entity.Owner;
 import com.yoi.GameManager.Model.Entity.Ownership;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
