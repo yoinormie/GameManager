@@ -1,11 +1,7 @@
 package com.yoi.GameManager.Model.DTO;
 
+import com.yoi.GameManager.Model.Entity.Appuser;
 import com.yoi.GameManager.Model.Entity.Owner;
-import com.yoi.GameManager.Model.Entity.User;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,16 +14,16 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UserDTO {
-    private UUID id;
-    private String name;
+public class AppuserDTO {
+    private UUID id_user;
+    private String username;
     private String email;
     private String password;
     private List<Owner> ownerList;
 
-    public UserDTO(User user){
-        this.id = user.getId();
-        this.name = user.getName();
+    public AppuserDTO(Appuser user){
+        this.id_user = user.getId_user();
+        this.username = user.getUsername();
         this.email = user.getEmail();
         this.password = user.getPassword();
     }

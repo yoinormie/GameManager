@@ -1,0 +1,43 @@
+package com.yoi.GameManager.Controllers;
+
+import com.yoi.GameManager.Model.DTO.AppuserDTO;
+import com.yoi.GameManager.Model.Entity.Appuser;
+import com.yoi.GameManager.Services.AppuserService;
+import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RequestMapping("/user")
+@RestController
+public class AppuserController {
+
+    private final AppuserService appuserService;
+
+    public AppuserController(AppuserService appuserService) {
+        this.appuserService = appuserService;
+    }
+
+    @Operation(summary = "EndPoint que crea un User")
+    @PostMapping()
+    public ResponseEntity<AppuserDTO> createUser(@RequestBody Appuser appuser){
+        return appuserService.createUser(appuser);
+    }
+
+    @Operation(summary = "EndPoint para obtener un User")
+    @GetMapping("/{username}")
+    public ResponseEntity<AppuserDTO> getUser(@PathVariable String username){
+        return appuserService.getUserByName(username);
+    }
+
+    @Operation(summary = "EndPoint para actualizar el username de un User")
+    @PutMapping("/newName/{username}")
+    public ResponseEntity<AppuserDTO> updateTheUsername(@PathVariable String username, @RequestParam String password, @RequestBody String newUsername){
+        return appuserService.modifyTheUsername(username,password,newUsername);
+    }
+
+    @Operation(summary = "EndPoint para borrar un User")
+    @DeleteMapping("/{username}")
+    public ResponseEntity deleteUser(@PathVariable String username, @RequestParam String password){
+        return appuserService.deleteUser(username,password);
+    }
+}
