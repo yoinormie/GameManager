@@ -24,9 +24,10 @@ public class AppuserService {
 
     public ResponseEntity<AppuserDTO> createUser(Appuser user){
         if(!user.getUsername().isBlank() && DatabaseUtils.verifyValidEmail(user.getEmail()) && !user.getPassword().isBlank()){
-            user.setId_user(DatabaseUtils.generateUUID());
             user.setPassword(DatabaseUtils.generateHashedPassword(user.getPassword()));
             appuserRepositoryJPA.save(user);
+            user.setMongo_id_user(appuserRepositoryJPA.findByUsername(user.getUsername()).get().getId_user().toString());
+            user.setId_user(null);
             appuserRepositoryMongoDB.save(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(new AppuserDTO(user));
         }
