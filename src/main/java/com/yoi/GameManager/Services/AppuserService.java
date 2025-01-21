@@ -3,7 +3,8 @@ package com.yoi.GameManager.Services;
 import com.yoi.GameManager.Exceptions.User.IncorrectPassword;
 import com.yoi.GameManager.Exceptions.User.UserNotFound;
 import com.yoi.GameManager.Exceptions.User.UserNotValid;
-import com.yoi.GameManager.Model.DTO.AppuserDTO;
+import com.yoi.GameManager.Model.DTO.EntityDTOs.AppuserDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.ModifyUsernameDTO;
 import com.yoi.GameManager.Model.Entity.Appuser;
 import com.yoi.GameManager.Repositories.JPA.AppuserRepositoryJPA;
 import com.yoi.GameManager.Repositories.MongoDB.AppuserRepositoryMongoDB;
@@ -54,10 +55,10 @@ public class AppuserService {
         throw new UserNotFound();
     }
 
-    public ResponseEntity<AppuserDTO> modifyTheUsername(String username, String password, String newUsername){
-        if(appuserRepositoryJPA.findByUsername(username).isPresent() && DatabaseUtils.verifyInsertedPassword(password, appuserRepositoryJPA.findByUsername(username).get().getPassword())){
+    public ResponseEntity<AppuserDTO> modifyTheUsername(String username, ModifyUsernameDTO request){
+        if(appuserRepositoryJPA.findByUsername(username).isPresent() && DatabaseUtils.verifyInsertedPassword(request.getPassword(), appuserRepositoryJPA.findByUsername(username).get().getPassword())){
             Appuser user = appuserRepositoryJPA.findByUsername(username).get();
-            user.setUsername(newUsername);
+            user.setUsername(request.getNewUsername());
             appuserRepositoryJPA.save(user);
             return ResponseEntity.status(HttpStatus.OK).body(new AppuserDTO(user));
         }
