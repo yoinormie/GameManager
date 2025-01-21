@@ -9,9 +9,9 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 @UtilityClass
 public final class DatabaseUtils {
 
-    public UUID generateUUID(){
-        return UUID.randomUUID();
-    }
+//    public UUID generateUUID(){
+//        return UUID.randomUUID();
+//    }
 
     public String generateHashedPassword(String password){
         return BCrypt.hashpw(password,BCrypt.gensalt());
