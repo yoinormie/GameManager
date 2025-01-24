@@ -4,8 +4,10 @@ import com.yoi.GameManager.Exceptions.User.IncorrectPassword;
 import com.yoi.GameManager.Exceptions.User.UserNotFound;
 import com.yoi.GameManager.Exceptions.User.UserNotValid;
 import com.yoi.GameManager.Model.DTO.EntityDTOs.AppuserDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.DeleteUserDTO;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.ModifyUsernameDTO;
-import com.yoi.GameManager.Model.Entity.Appuser;
+import com.yoi.GameManager.Model.Entity.JPA.Appuser;
+import com.yoi.GameManager.Model.Entity.MongoDB.AppuserMongoDB;
 import com.yoi.GameManager.Repositories.JPA.AppuserRepositoryJPA;
 import com.yoi.GameManager.Repositories.MongoDB.AppuserRepositoryMongoDB;
 import com.yoi.GameManager.Utilities.DatabaseUtils;
@@ -27,25 +29,23 @@ public class AppuserService {
         if(!user.getUsername().isBlank() && DatabaseUtils.verifyValidEmail(user.getEmail()) && !user.getPassword().isBlank()){
             user.setPassword(DatabaseUtils.generateHashedPassword(user.getPassword()));
             appuserRepositoryJPA.save(user);
-            user.setMongo_id_user(appuserRepositoryJPA.findByUsername(user.getUsername()).get().getId_user().toString());
-            user.setId_user(null);
-            appuserRepositoryMongoDB.save(user);
+            appuserRepositoryMongoDB.save(AppuserMongoDB.newUser(user));
             return ResponseEntity.status(HttpStatus.CREATED).body(new AppuserDTO(user));
         }
         throw new UserNotValid();
     }
 
-    public ResponseEntity deleteUser(String username, String password){
-        if(appuserRepositoryJPA.findByUsername(username).isEmpty()){
+    public ResponseEntity deleteUser(DeleteUserDTO request){
+        if(appuserRepositoryJPA.findByUsername(request.getUsername()).isEmpty()){
             throw new UserNotFound();
         }
-        Appuser userToDelete = appuserRepositoryJPA.findByUsername(username).get();
-        if(!DatabaseUtils.verifyInsertedPassword(password,userToDelete.getPassword())){
+        Appuser userToDelete = appuserRepositoryJPA.findByUsername(request.getUsername()).get();
+        if(!DatabaseUtils.verifyInsertedPassword(request.getPassword(),userToDelete.getPassword())){
             throw new IncorrectPassword();
         }
         appuserRepositoryJPA.delete(userToDelete);
-        appuserRepositoryMongoDB.delete(userToDelete);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        appuserRepositoryMongoDB.delete(new AppuserMongoDB(AppuserMongoDB));
+        return ResponseEntity.noContent().build();
     }
 
     public ResponseEntity<AppuserDTO> getUserByName (String username){
@@ -55,10 +55,11 @@ public class AppuserService {
         throw new UserNotFound();
     }
 
-    public ResponseEntity<AppuserDTO> modifyTheUsername(String username, ModifyUsernameDTO request){
-        if(appuserRepositoryJPA.findByUsername(username).isPresent() && DatabaseUtils.verifyInsertedPassword(request.getPassword(), appuserRepositoryJPA.findByUsername(username).get().getPassword())){
-            Appuser user = appuserRepositoryJPA.findByUsername(username).get();
+    public ResponseEntity<AppuserDTO> modifyTheUsername(ModifyUsernameDTO request){
+        if(appuserRepositoryJPA.findByUsername(request.getUsername()).isPresent() && DatabaseUtils.verifyInsertedPassword(request.getPassword(), appuserRepositoryJPA.findByUsername(request.getUsername()).get().getPassword())){
+            Appuser user = appuserRepositoryJPA.findByUsername(request.getUsername()).get();
             user.setUsername(request.getNewUsername());
+
             appuserRepositoryJPA.save(user);
             return ResponseEntity.status(HttpStatus.OK).body(new AppuserDTO(user));
         }
