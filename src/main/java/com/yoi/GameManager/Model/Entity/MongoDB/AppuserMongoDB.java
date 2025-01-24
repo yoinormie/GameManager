@@ -39,12 +39,14 @@ public class AppuserMongoDB {
     @LastModifiedDate
     private Instant lastModification;
 
-    public AppuserMongoDB(Appuser user){
-        id_user = user.getId_user().toString();
-        username = user.getUsername();
-        email = user.getEmail();
-        password = user.getPassword();
-        createDate = Instant.now();
-        lastModification = Instant.now();
+    public static AppuserMongoDB newUser(Appuser user){
+        AppuserMongoDB userMongo = new AppuserMongoDB();
+        userMongo.setId_user(user.getId_user().toString());
+        userMongo.setUsername( user.getUsername()); ;
+        userMongo.setEmail(user.getEmail());
+        userMongo.setPassword(user.getPassword());
+        userMongo.setCreateDate(Instant.now());
+        userMongo.setLastModification(Instant.now());
+        return userMongo;
     }
 }
