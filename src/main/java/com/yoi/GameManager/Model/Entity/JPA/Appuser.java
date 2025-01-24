@@ -1,8 +1,5 @@
-package com.yoi.GameManager.Model.Entity;
+package com.yoi.GameManager.Model.Entity.JPA;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,16 +17,12 @@ import java.util.UUID;
 @Data
 @ToString
 @AllArgsConstructor
-@Document(collection = "Users")
+@Document(collection = "Appuser")
 public class Appuser {
     @Id
     @Column(name = "id_user", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id_user;
-
-    @Field
-    @Transient
-    private String mongo_id_user;
 
     @Column(name = "username",nullable = false,length = 255)
     private String username;

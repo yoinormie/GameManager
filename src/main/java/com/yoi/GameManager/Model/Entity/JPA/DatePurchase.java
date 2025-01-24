@@ -1,4 +1,4 @@
-package com.yoi.GameManager.Model.Entity;
+package com.yoi.GameManager.Model.Entity.JPA;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.sql.Date;
-import java.util.UUID;
 
 
 @Entity

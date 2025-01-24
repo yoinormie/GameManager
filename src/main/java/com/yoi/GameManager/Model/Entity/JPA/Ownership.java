@@ -1,11 +1,10 @@
-package com.yoi.GameManager.Model.Entity;
+package com.yoi.GameManager.Model.Entity.JPA;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 @Entity
 @Table(name = "ownership")
