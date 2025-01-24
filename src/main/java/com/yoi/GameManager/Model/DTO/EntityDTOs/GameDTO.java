@@ -1,6 +1,6 @@
 package com.yoi.GameManager.Model.DTO.EntityDTOs;
 
-import com.yoi.GameManager.Model.Entity.Ownership;
+import com.yoi.GameManager.Model.Entity.JPA.Ownership;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
