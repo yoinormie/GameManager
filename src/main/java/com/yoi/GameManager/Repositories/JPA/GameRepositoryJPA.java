@@ -1,6 +1,6 @@
 package com.yoi.GameManager.Repositories.JPA;
 
-import com.yoi.GameManager.Model.Entity.Game;
+import com.yoi.GameManager.Model.Entity.JPA.Game;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
