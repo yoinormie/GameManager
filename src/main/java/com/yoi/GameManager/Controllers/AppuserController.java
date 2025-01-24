@@ -1,8 +1,9 @@
 package com.yoi.GameManager.Controllers;
 
 import com.yoi.GameManager.Model.DTO.EntityDTOs.AppuserDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.DeleteUserDTO;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.ModifyUsernameDTO;
-import com.yoi.GameManager.Model.Entity.Appuser;
+import com.yoi.GameManager.Model.Entity.JPA.Appuser;
 import com.yoi.GameManager.Services.AppuserService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
@@ -32,13 +33,13 @@ public class AppuserController {
 
     @Operation(summary = "EndPoint para actualizar el username de un User")
     @PutMapping("/newName/{username}")
-    public ResponseEntity<AppuserDTO> updateTheUsername(@PathVariable String username, @RequestBody ModifyUsernameDTO request){
-        return appuserService.modifyTheUsername(username, request);
+    public ResponseEntity<AppuserDTO> updateTheUsername(@RequestBody ModifyUsernameDTO request){
+        return appuserService.modifyTheUsername(request);
     }
 
     @Operation(summary = "EndPoint para borrar un User")
     @DeleteMapping("/{username}")
-    public ResponseEntity deleteUser(@PathVariable String username, @RequestParam String password){
-        return appuserService.deleteUser(username,password);
+    public ResponseEntity deleteUser(@RequestBody DeleteUserDTO request){
+        return appuserService.deleteUser(request);
     }
 }
