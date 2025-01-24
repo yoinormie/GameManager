@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ModifyUsernameDTO {
-    //private String username;
+    private String username;
     private String password;
     private String newUsername;
 }
