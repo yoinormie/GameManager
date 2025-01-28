@@ -1,8 +1,9 @@
 package com.yoi.GameManager.Controllers;
 
 import com.yoi.GameManager.Model.DTO.EntityDTOs.AppuserDTO;
-import com.yoi.GameManager.Model.DTO.RequestDTOs.DeleteUserDTO;
-import com.yoi.GameManager.Model.DTO.RequestDTOs.ModifyUsernameDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.DeleteUserDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUserEmailDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUsernameDTO;
 import com.yoi.GameManager.Model.Entity.JPA.Appuser;
 import com.yoi.GameManager.Services.AppuserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,5 +42,10 @@ public class AppuserController {
     @DeleteMapping("/{username}")
     public ResponseEntity deleteUser(@RequestBody DeleteUserDTO request){
         return appuserService.deleteUser(request);
+    }
+
+    @PutMapping("/newEmail/{username}")
+    public ResponseEntity<AppuserDTO> updateTheEmail(@RequestBody ModifyUserEmailDTO request){
+        return appuserService.modifyTheEmail(request);
     }
 }
