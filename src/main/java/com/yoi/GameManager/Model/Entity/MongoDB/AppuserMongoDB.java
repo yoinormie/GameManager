@@ -18,9 +18,9 @@ import java.time.Instant;
 @AllArgsConstructor
 @Document(collection = "Appuser")
 public class AppuserMongoDB {
-    @Id
-    @Field(name = "id_user")
-    private String id_user;
+
+    @Field(name = "idUser")
+    private String idUser;
 
     @Field(name = "username")
     private String username;
@@ -41,8 +41,8 @@ public class AppuserMongoDB {
 
     public static AppuserMongoDB newUser(Appuser user){
         AppuserMongoDB userMongo = new AppuserMongoDB();
-        userMongo.setId_user(user.getId_user().toString());
-        userMongo.setUsername( user.getUsername()); ;
+        userMongo.setIdUser(user.getId_user().toString());
+        userMongo.setUsername(user.getUsername()); ;
         userMongo.setEmail(user.getEmail());
         userMongo.setPassword(user.getPassword());
         userMongo.setCreateDate(Instant.now());
@@ -50,13 +50,17 @@ public class AppuserMongoDB {
         return userMongo;
     }
 
-    public static AppuserMongoDB updateUser(Appuser user){
-        AppuserMongoDB appuserMongoDB = new AppuserMongoDB();
-        appuserMongoDB.setId_user(user.getId_user().toString());
-        appuserMongoDB.setUsername(user.getUsername());
-        appuserMongoDB.setEmail(user.getEmail());
-        appuserMongoDB.setPassword(user.getPassword());
-        appuserMongoDB.setLastModification(Instant.now());
-        return appuserMongoDB;
-    }
+//    public static AppuserMongoDB updateUser(Appuser user, AppuserMongoDB existingUserMDB){
+//        AppuserMongoDB appuserMongoDB = new AppuserMongoDB();
+//        appuserMongoDB.setIdUser(user.getId_user().toString());
+//        appuserMongoDB.setUsername(user.getUsername());
+//        appuserMongoDB.setEmail(user.getEmail());
+//        appuserMongoDB.setPassword(user.getPassword());
+//        appuserMongoDB.setLastModification(Instant.now());
+//
+//        if(existingUserMDB.getCreateDate() != null){
+//            appuserMongoDB.setCreateDate(existingUserMDB.getCreateDate());
+//        }
+//        return appuserMongoDB;
+//    }
 }
