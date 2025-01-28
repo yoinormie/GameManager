@@ -49,4 +49,14 @@ public class AppuserMongoDB {
         userMongo.setLastModification(Instant.now());
         return userMongo;
     }
+
+    public static AppuserMongoDB updateUser(Appuser user){
+        AppuserMongoDB appuserMongoDB = new AppuserMongoDB();
+        appuserMongoDB.setId_user(user.getId_user().toString());
+        appuserMongoDB.setUsername(user.getUsername());
+        appuserMongoDB.setEmail(user.getEmail());
+        appuserMongoDB.setPassword(user.getPassword());
+        appuserMongoDB.setLastModification(Instant.now());
+        return appuserMongoDB;
+    }
 }
