@@ -4,8 +4,9 @@ import com.yoi.GameManager.Exceptions.User.IncorrectPassword;
 import com.yoi.GameManager.Exceptions.User.UserNotFound;
 import com.yoi.GameManager.Exceptions.User.UserNotValid;
 import com.yoi.GameManager.Model.DTO.EntityDTOs.AppuserDTO;
-import com.yoi.GameManager.Model.DTO.RequestDTOs.DeleteUserDTO;
-import com.yoi.GameManager.Model.DTO.RequestDTOs.ModifyUsernameDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.DeleteUserDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUserEmailDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUsernameDTO;
 import com.yoi.GameManager.Model.Entity.JPA.Appuser;
 import com.yoi.GameManager.Model.Entity.MongoDB.AppuserMongoDB;
 import com.yoi.GameManager.Repositories.JPA.AppuserRepositoryJPA;
@@ -53,7 +54,7 @@ public class AppuserService {
         }
         //Borra al usuario de las bases de datos
         appuserRepositoryJPA.delete(userToDelete);
-        appuserRepositoryMongoDB.delete(AppuserMongoDB.newUser(userToDelete));
+        appuserRepositoryMongoDB.deleteByUsername(AppuserMongoDB.newUser(userToDelete).getUsername());
         return ResponseEntity.noContent().build();
     }
 
@@ -77,12 +78,28 @@ public class AppuserService {
             //Actualiza el nombre del usuario en la base PSQL
             appuserRepositoryJPA.save(user);
             //Crea un objeto de la base de mongo a través de un usuario de la entidad de JPA, y lo guarda en la base, pero 1ro busca la fecha de creación sino la actualiza como null.
-            AppuserMongoDB userMDB = AppuserMongoDB.updateUser(user);
-            userMDB.setCreateDate(appuserRepositoryMongoDB.findById(userMDB.getId_user()).get().getCreateDate());
-            appuserRepositoryMongoDB.save(userMDB);
+            AppuserMongoDB existingDocument = appuserRepositoryMongoDB.findByIdUser(user.getId_user().toString()).get();
+            //AppuserMongoDB userMDB = AppuserMongoDB.updateUser(user, existingDocument);
+            existingDocument.setUsername(request.getUsername());
+            appuserRepositoryMongoDB.save(existingDocument);
             return ResponseEntity.status(HttpStatus.OK).body(new AppuserDTO(user));
         }
         //Lanza una excepción si no entra dentro de la condición
+        throw new UserNotValid();
+    }
+
+    public ResponseEntity<AppuserDTO> modifyTheEmail(ModifyUserEmailDTO request){
+        if(appuserRepositoryJPA.findByUsername(request.getUsername()).isPresent() && DatabaseUtils.verifyInsertedPassword(request.getPassword(), appuserRepositoryJPA.findByUsername(request.getUsername()).get().getPassword()) && DatabaseUtils.verifyInsertedEmail(request.getEmail(),appuserRepositoryJPA.findByUsername(request.getUsername()).get().getEmail())){
+            Appuser user = appuserRepositoryJPA.findByUsername(request.getUsername()).get();
+            user.setEmail(request.getEmail());
+            appuserRepositoryJPA.save(user);
+            AppuserMongoDB existingDocument = appuserRepositoryMongoDB.findByIdUser(user.getId_user().toString()).get();
+            existingDocument.setUsername(request.getUsername());
+            //AppuserMongoDB userMDB = AppuserMongoDB.updateUser(user, existingDocument);
+            //userMDB.setCreateDate(appuserRepositoryMongoDB.findById(userMDB.getIdUser()).get().getCreateDate());
+            appuserRepositoryMongoDB.save(existingDocument);
+            return ResponseEntity.status(HttpStatus.OK).body(new AppuserDTO(user));
+        }
         throw new UserNotValid();
     }
 }
