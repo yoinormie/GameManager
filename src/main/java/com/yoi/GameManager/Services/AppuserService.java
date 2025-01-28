@@ -74,8 +74,12 @@ public class AppuserService {
             //Crea un objeto para guardar toda la información del usuario y se le pone un nuevo nickname
             Appuser user = appuserRepositoryJPA.findByUsername(request.getUsername()).get();
             user.setUsername(request.getNewUsername());
-            //Actualiza el nombre del usuario
+            //Actualiza el nombre del usuario en la base PSQL
             appuserRepositoryJPA.save(user);
+            //Crea un objeto de la base de mongo a través de un usuario de la entidad de JPA, y lo guarda en la base, pero 1ro busca la fecha de creación sino la actualiza como null.
+            AppuserMongoDB userMDB = AppuserMongoDB.updateUser(user);
+            userMDB.setCreateDate(appuserRepositoryMongoDB.findById(userMDB.getId_user()).get().getCreateDate());
+            appuserRepositoryMongoDB.save(userMDB);
             return ResponseEntity.status(HttpStatus.OK).body(new AppuserDTO(user));
         }
         //Lanza una excepción si no entra dentro de la condición
