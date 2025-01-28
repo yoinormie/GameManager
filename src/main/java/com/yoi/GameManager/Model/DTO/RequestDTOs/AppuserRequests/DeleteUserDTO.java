@@ -1,4 +1,4 @@
-package com.yoi.GameManager.Model.DTO.RequestDTOs;
+package com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests;
 
 import lombok.Data;
 

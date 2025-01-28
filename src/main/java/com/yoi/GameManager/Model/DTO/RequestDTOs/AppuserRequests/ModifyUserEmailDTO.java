@@ -1,9 +1,9 @@
-package com.yoi.GameManager.Model.DTO.RequestDTOs;
+package com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests;
 
 import lombok.Data;
 
 @Data
-public class ModifyEmailDTO {
+public class ModifyUserEmailDTO {
     private String username;
     private String email;
     private String password;
