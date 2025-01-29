@@ -72,15 +72,15 @@ public class AppuserService {
     public ResponseEntity<AppuserDTO> modifyTheUsername(ModifyUsernameDTO request){
         //Mira si existe un usuario con ese nombre y si la contraseña es correcta
         if(appuserRepositoryJPA.findByUsername(request.getUsername()).isPresent() && DatabaseUtils.verifyInsertedPassword(request.getPassword(), appuserRepositoryJPA.findByUsername(request.getUsername()).get().getPassword())){
-            //Crea un objeto para guardar toda la información del usuario y se le pone un nuevo nickname
             Appuser user = appuserRepositoryJPA.findByUsername(request.getUsername()).get();
             user.setUsername(request.getNewUsername());
+
             //Actualiza el nombre del usuario en la base PSQL
             appuserRepositoryJPA.save(user);
+
             //Crea un objeto de la base de mongo a través de un usuario de la entidad de JPA, y lo guarda en la base, pero 1ro busca la fecha de creación sino la actualiza como null.
-            AppuserMongoDB existingDocument = appuserRepositoryMongoDB.findByIdUser(user.getId_user().toString()).get();
-            //AppuserMongoDB userMDB = AppuserMongoDB.updateUser(user, existingDocument);
-            existingDocument.setUsername(request.getUsername());
+            AppuserMongoDB existingDocument = appuserRepositoryMongoDB.findById(user.getId_user().toString()).get();
+            existingDocument.setUsername(request.getNewUsername());
             appuserRepositoryMongoDB.save(existingDocument);
             return ResponseEntity.status(HttpStatus.OK).body(new AppuserDTO(user));
         }
@@ -89,14 +89,13 @@ public class AppuserService {
     }
 
     public ResponseEntity<AppuserDTO> modifyTheEmail(ModifyUserEmailDTO request){
+
         if(appuserRepositoryJPA.findByUsername(request.getUsername()).isPresent() && DatabaseUtils.verifyInsertedPassword(request.getPassword(), appuserRepositoryJPA.findByUsername(request.getUsername()).get().getPassword()) && DatabaseUtils.verifyInsertedEmail(request.getEmail(),appuserRepositoryJPA.findByUsername(request.getUsername()).get().getEmail())){
             Appuser user = appuserRepositoryJPA.findByUsername(request.getUsername()).get();
-            user.setEmail(request.getEmail());
+            user.setEmail(request.getNewEmail());
             appuserRepositoryJPA.save(user);
-            AppuserMongoDB existingDocument = appuserRepositoryMongoDB.findByIdUser(user.getId_user().toString()).get();
-            existingDocument.setUsername(request.getUsername());
-            //AppuserMongoDB userMDB = AppuserMongoDB.updateUser(user, existingDocument);
-            //userMDB.setCreateDate(appuserRepositoryMongoDB.findById(userMDB.getIdUser()).get().getCreateDate());
+            AppuserMongoDB existingDocument = appuserRepositoryMongoDB.findById(user.getId_user().toString()).get();
+            existingDocument.setEmail(request.getNewEmail());
             appuserRepositoryMongoDB.save(existingDocument);
             return ResponseEntity.status(HttpStatus.OK).body(new AppuserDTO(user));
         }
