@@ -1,11 +1,11 @@
 package com.yoi.GameManager.Model.Entity.MongoDB;
 
 import com.yoi.GameManager.Model.Entity.JPA.Appuser;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -19,6 +19,7 @@ import java.time.Instant;
 @Document(collection = "Appuser")
 public class AppuserMongoDB {
 
+    @Id
     @Field(name = "idUser")
     private String idUser;
 
