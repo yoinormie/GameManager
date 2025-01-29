@@ -36,6 +36,6 @@ public final class DatabaseUtils {
 
     @Operation(summary = "Verifica si el correo insertado es igual al almacenado")
     public boolean verifyInsertedEmail(String insertedEmail, String checkedEmail){
-        return appuserRepositoryJPA.findByEmail(insertedEmail).get().getEmail().equals(checkedEmail);
+        return checkedEmail.equals(insertedEmail);
     }
 }
