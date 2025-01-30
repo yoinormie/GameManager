@@ -30,11 +30,9 @@ public class AppuserService {
     @Operation(summary = "Crea un usuario en las BB.DD.")
 
     public ResponseEntity<AppuserDTO> createUser(Appuser user){
-        //Verifica si el usuario tiene Nickname, si puso un correo válido y si puso una contraseña
-        if(!user.getUsername().isBlank() && DatabaseUtils.verifyValidEmail(user.getEmail()) && !user.getPassword().isBlank()){
+        if(comprobacionMinimaParaCrearUsuario(user)){
             user.setPassword(DatabaseUtils.generateHashedPassword(user.getPassword()));
-            appuserRepositoryJPA.save(user);
-            appuserRepositoryMongoDB.save(AppuserMongoDB.newUser(user));
+            guardarUsuarioEnBBDD(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(new AppuserDTO(user));
         }
         //Si no se cumple lanza esta excepción
@@ -43,18 +41,10 @@ public class AppuserService {
 
     @Operation(summary = "Borra un usuario de las BB.DD")
     public ResponseEntity deleteUser(DeleteUserDTO request){
-        //Lanza una excepción si no existe un usuario en la B.D. de Postgres
-        if(appuserRepositoryJPA.findByUsername(request.getUsername()).isEmpty()){
-            throw new UserNotFound();
-        }
-        //Crea un objeto Appuser con todas sus características. Lanza una excepción si la contraseña no es correcta
-        Appuser userToDelete = appuserRepositoryJPA.findByUsername(request.getUsername()).get();
-        if(!DatabaseUtils.verifyInsertedPassword(request.getPassword(),userToDelete.getPassword())){
-            throw new IncorrectPassword();
-        }
+
+        Appuser userToDelete = comprobacionMinimaParaEliminarUsuario(request);
         //Borra al usuario de las bases de datos
-        appuserRepositoryJPA.delete(userToDelete);
-        appuserRepositoryMongoDB.deleteByUsername(AppuserMongoDB.newUser(userToDelete).getUsername());
+        eliminacionDeLasBases(userToDelete);
         return ResponseEntity.noContent().build();
     }
 
@@ -71,7 +61,7 @@ public class AppuserService {
     @Operation(summary = "Modifica el nickname de un usuario existente")
     public ResponseEntity<AppuserDTO> modifyTheUsername(ModifyUsernameDTO request){
         //Mira si existe un usuario con ese nombre y si la contraseña es correcta
-        if(appuserRepositoryJPA.findByUsername(request.getUsername()).isPresent() && DatabaseUtils.verifyInsertedPassword(request.getPassword(), appuserRepositoryJPA.findByUsername(request.getUsername()).get().getPassword())){
+        if(minimaVerificacionDeModificacionNombreUsuario(request)){
             Appuser user = appuserRepositoryJPA.findByUsername(request.getUsername()).get();
             user.setUsername(request.getNewUsername());
 
@@ -79,8 +69,7 @@ public class AppuserService {
             appuserRepositoryJPA.save(user);
 
             //Crea un objeto de la base de mongo a través de un usuario de la entidad de JPA, y lo guarda en la base, pero 1ro busca la fecha de creación sino la actualiza como null.
-            AppuserMongoDB existingDocument = appuserRepositoryMongoDB.findById(user.getId_user().toString()).get();
-            existingDocument.setUsername(request.getNewUsername());
+            AppuserMongoDB existingDocument = obtenerYModificarUsuarioMongoDB(request, user.getId_user().toString());
             appuserRepositoryMongoDB.save(existingDocument);
             return ResponseEntity.status(HttpStatus.OK).body(new AppuserDTO(user));
         }
@@ -88,17 +77,136 @@ public class AppuserService {
         throw new UserNotValid();
     }
 
+    @Operation(summary = "Método que modifica un email de un usuario")
     public ResponseEntity<AppuserDTO> modifyTheEmail(ModifyUserEmailDTO request){
 
-        if(appuserRepositoryJPA.findByUsername(request.getUsername()).isPresent() && DatabaseUtils.verifyInsertedPassword(request.getPassword(), appuserRepositoryJPA.findByUsername(request.getUsername()).get().getPassword()) && DatabaseUtils.verifyInsertedEmail(request.getEmail(),appuserRepositoryJPA.findByUsername(request.getUsername()).get().getEmail())){
+        if(verificacionMinimaModificacionDeEmail(request)){
             Appuser user = appuserRepositoryJPA.findByUsername(request.getUsername()).get();
             user.setEmail(request.getNewEmail());
             appuserRepositoryJPA.save(user);
-            AppuserMongoDB existingDocument = appuserRepositoryMongoDB.findById(user.getId_user().toString()).get();
-            existingDocument.setEmail(request.getNewEmail());
+
+            AppuserMongoDB existingDocument = obtenerYModificarUsuarioMongoDB(request,user.getId_user().toString());
             appuserRepositoryMongoDB.save(existingDocument);
             return ResponseEntity.status(HttpStatus.OK).body(new AppuserDTO(user));
         }
         throw new UserNotValid();
+    }
+
+    /**
+     * Método que reune los guardados de las 2 bases de datos
+     * @param user entidad a guardar
+     */
+    private void guardarUsuarioEnBBDD(Appuser user) {
+        appuserRepositoryJPA.save(user);
+        appuserRepositoryMongoDB.save(AppuserMongoDB.newUser(user));
+    }
+
+    /**
+     * Mira, aparte del nombre y la contraseña que inserta el usuario, mira si el correo existente es igual al que se necesita insertar para cambiar
+     * @param request clase con los datos necesario a comprobar
+     * @return booleano que valida la verificación
+     */
+    private boolean verificacionMinimaModificacionDeEmail(ModifyUserEmailDTO request) {
+        return minimaVerificacionDeModificacionNombreUsuario(request) &&
+                DatabaseUtils.verifyInsertedEmail(request.getEmail(), appuserRepositoryJPA.findByUsername(request.getUsername()).get().getEmail());
+    }
+
+    /**
+     * Verifica si el usuario tiene Nickname, si puso un correo válido y si puso una contraseña
+     * @param user Usuario insertado
+     * @return booleano que comprueba si vale o no
+     */
+    private boolean comprobacionMinimaParaCrearUsuario(Appuser user) {
+        return !user.getUsername().isBlank() &&
+                DatabaseUtils.verifyValidEmail(user.getEmail()) && !user.getPassword().isBlank();
+    }
+
+    /**
+     * Método que comprueba si vale la request o no
+     * @param request valores necesario a comprobar
+     * @return comprueba si los valores son correctos para ejecutar la acción
+     */
+    private Appuser comprobacionMinimaParaEliminarUsuario(DeleteUserDTO request) {
+        //Lanza una excepción si no existe un usuario en la B.D. de Postgres
+        comprobarNombreVacio(request);
+        //Crea un objeto Appuser con todas sus características. Lanza una excepción si la contraseña no es correcta
+        Appuser userToDelete = appuserRepositoryJPA.findByUsername(request.getUsername()).get();
+        comprobarPassword(request, userToDelete);
+        return userToDelete;
+    }
+
+    /**
+     * Comprueba si la contraseña es válida
+     * @param request clase que tiene la contraseña que se tiene que insertar
+     * @param userToDelete usuario que tiene la contraseña almacenada
+     */
+    private static void comprobarPassword(DeleteUserDTO request, Appuser userToDelete) {
+        if(!DatabaseUtils.verifyInsertedPassword(request.getPassword(), userToDelete.getPassword())){
+            throw new IncorrectPassword();
+        }
+    }
+
+    /**
+     * Comprueba si el campo está vacio
+     * @param request contiene los datos que pone el usuario
+     */
+    private void comprobarNombreVacio(DeleteUserDTO request) {
+        if(appuserRepositoryJPA.findByUsername(request.getUsername()).isEmpty()){
+            throw new UserNotFound();
+        }
+    }
+
+    /**
+     * Método para modificar el nombre de un usuario
+     * @param request clase que tiene el nuevo nombre
+     * @param id para buscar a X usuario
+     * @return el documento de Mongo con el usuario modificado
+     */
+    private AppuserMongoDB obtenerYModificarUsuarioMongoDB(ModifyUsernameDTO request, String id) {
+        AppuserMongoDB existingDocument = appuserRepositoryMongoDB.findById(id).get();
+        existingDocument.setUsername(request.getNewUsername());
+        return existingDocument;
+    }
+
+    /**
+     * Método para modificar el email de un usuario
+     * @param request clase que tiene el nuevo email
+     * @param id para buscar a X usuario
+     * @return el documento de Mongo con el usuario modificado
+     */
+    private AppuserMongoDB obtenerYModificarUsuarioMongoDB(ModifyUserEmailDTO request, String id) {
+        AppuserMongoDB existingDocument = appuserRepositoryMongoDB.findById(id).get();
+        existingDocument.setUsername(request.getNewEmail());
+        return existingDocument;
+    }
+
+    /**
+     * Método que mira si los datos valen o no
+     * @param request datos a comprobar
+     * @return booleano que dice si los datos son correctos o no
+     */
+    private boolean minimaVerificacionDeModificacionNombreUsuario(ModifyUsernameDTO request) {
+        return appuserRepositoryJPA.findByUsername(request.getUsername()).isPresent()
+                && DatabaseUtils.verifyInsertedPassword(request.getPassword(),
+                appuserRepositoryJPA.findByUsername(request.getUsername()).get().getPassword());
+    }
+
+    /**
+     * Método que mira si los datos valen o no
+     * @param request datos a comprobar
+     * @return booleano que dice si los datos son correctos o no
+     */
+    private boolean minimaVerificacionDeModificacionNombreUsuario(ModifyUserEmailDTO request) {
+        return appuserRepositoryJPA.findByUsername(request.getUsername()).isPresent()
+                && DatabaseUtils.verifyInsertedPassword(request.getPassword(), appuserRepositoryJPA.findByUsername(request.getUsername()).get().getPassword());
+    }
+
+    /**
+     * Método que junta otros dos que eliminan un usuario de las BB.DD.
+     * @param userToDelete entidad a eliminar
+     */
+    private void eliminacionDeLasBases(Appuser userToDelete) {
+        appuserRepositoryJPA.delete(userToDelete);
+        appuserRepositoryMongoDB.deleteByUsername(AppuserMongoDB.newUser(userToDelete).getUsername());
     }
 }
