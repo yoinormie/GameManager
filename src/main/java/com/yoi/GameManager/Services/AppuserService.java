@@ -1,11 +1,12 @@
 package com.yoi.GameManager.Services;
 
-import com.yoi.GameManager.Exceptions.User.IncorrectPassword;
-import com.yoi.GameManager.Exceptions.User.UserNotFound;
-import com.yoi.GameManager.Exceptions.User.UserNotValid;
+import com.yoi.GameManager.Exceptions.Appuser.IncorrectPassword;
+import com.yoi.GameManager.Exceptions.Appuser.UserNotFound;
+import com.yoi.GameManager.Exceptions.Appuser.UserNotValid;
 import com.yoi.GameManager.Model.DTO.EntityDTOs.AppuserDTO;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.DeleteUserDTO;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUserEmailDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUserPasswordDTO;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUsernameDTO;
 import com.yoi.GameManager.Model.Entity.JPA.Appuser;
 import com.yoi.GameManager.Model.Entity.MongoDB.AppuserMongoDB;
@@ -61,7 +62,7 @@ public class AppuserService {
     @Operation(summary = "Modifica el nickname de un usuario existente")
     public ResponseEntity<AppuserDTO> modifyTheUsername(ModifyUsernameDTO request){
         //Mira si existe un usuario con ese nombre y si la contraseña es correcta
-        if(minimaVerificacionDeModificacionNombreUsuario(request)){
+        if(minimaVerificacionDeModificacionUsuario(request)){
             Appuser user = appuserRepositoryJPA.findByUsername(request.getUsername()).get();
             user.setUsername(request.getNewUsername());
 
@@ -92,6 +93,21 @@ public class AppuserService {
         throw new UserNotValid();
     }
 
+    @Operation(summary = "Método que modifica la password de un usuario")
+    public ResponseEntity<AppuserDTO> modifyThePassword(ModifyUserPasswordDTO request){
+
+        if(minimaVerificacionDeModificacionUsuario(request)){
+            Appuser user = appuserRepositoryJPA.findByUsername(request.getUsername()).get();
+            user.setPassword(DatabaseUtils.generateHashedPassword(request.getNewPassword()));
+            appuserRepositoryJPA.save(user);
+
+            AppuserMongoDB existingDocument = obtenerYModificarUsuarioMongoDB(user);
+            appuserRepositoryMongoDB.save(existingDocument);
+            return ResponseEntity.status(HttpStatus.OK).body(new AppuserDTO(user));
+        }
+        throw new UserNotValid();
+    }
+
     /**
      * Método que reune los guardados de las 2 bases de datos
      * @param user entidad a guardar
@@ -107,7 +123,7 @@ public class AppuserService {
      * @return booleano que valida la verificación
      */
     private boolean verificacionMinimaModificacionDeEmail(ModifyUserEmailDTO request) {
-        return minimaVerificacionDeModificacionNombreUsuario(request) &&
+        return minimaVerificacionDeModificacionUsuario(request) &&
                 DatabaseUtils.verifyInsertedEmail(request.getEmail(), appuserRepositoryJPA.findByUsername(request.getUsername()).get().getEmail());
     }
 
@@ -180,12 +196,18 @@ public class AppuserService {
         return existingDocument;
     }
 
+    private AppuserMongoDB obtenerYModificarUsuarioMongoDB(Appuser appuser) {
+        AppuserMongoDB existingDocument = appuserRepositoryMongoDB.findById(appuser.getId_user().toString()).get();
+        existingDocument.setPassword(appuser.getPassword());
+        return existingDocument;
+    }
+
     /**
      * Método que mira si los datos valen o no
      * @param request datos a comprobar
      * @return booleano que dice si los datos son correctos o no
      */
-    private boolean minimaVerificacionDeModificacionNombreUsuario(ModifyUsernameDTO request) {
+    private boolean minimaVerificacionDeModificacionUsuario(ModifyUsernameDTO request) {
         return appuserRepositoryJPA.findByUsername(request.getUsername()).isPresent()
                 && DatabaseUtils.verifyInsertedPassword(request.getPassword(),
                 appuserRepositoryJPA.findByUsername(request.getUsername()).get().getPassword());
@@ -196,11 +218,16 @@ public class AppuserService {
      * @param request datos a comprobar
      * @return booleano que dice si los datos son correctos o no
      */
-    private boolean minimaVerificacionDeModificacionNombreUsuario(ModifyUserEmailDTO request) {
+    private boolean minimaVerificacionDeModificacionUsuario(ModifyUserEmailDTO request) {
         return appuserRepositoryJPA.findByUsername(request.getUsername()).isPresent()
                 && DatabaseUtils.verifyInsertedPassword(request.getPassword(), appuserRepositoryJPA.findByUsername(request.getUsername()).get().getPassword());
     }
 
+    private boolean minimaVerificacionDeModificacionUsuario(ModifyUserPasswordDTO request) {
+        return appuserRepositoryJPA.findByUsername(request.getUsername()).isPresent()
+                && DatabaseUtils.verifyInsertedPassword(request.getPassword(),
+                appuserRepositoryJPA.findByUsername(request.getUsername()).get().getPassword());
+    }
     /**
      * Método que junta otros dos que eliminan un usuario de las BB.DD.
      * @param userToDelete entidad a eliminar

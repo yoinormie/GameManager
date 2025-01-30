@@ -3,6 +3,7 @@ package com.yoi.GameManager.Controllers;
 import com.yoi.GameManager.Model.DTO.EntityDTOs.AppuserDTO;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.DeleteUserDTO;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUserEmailDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUserPasswordDTO;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUsernameDTO;
 import com.yoi.GameManager.Model.Entity.JPA.Appuser;
 import com.yoi.GameManager.Services.AppuserService;
@@ -47,5 +48,10 @@ public class AppuserController {
     @PutMapping("/newEmail/{username}")
     public ResponseEntity<AppuserDTO> updateTheEmail(@RequestBody ModifyUserEmailDTO request){
         return appuserService.modifyTheEmail(request);
+    }
+
+    @PutMapping("/newPassword/{username}")
+    public ResponseEntity<AppuserDTO> updateThePassword(@RequestBody ModifyUserPasswordDTO request){
+        return appuserService.modifyThePassword(request);
     }
 }
