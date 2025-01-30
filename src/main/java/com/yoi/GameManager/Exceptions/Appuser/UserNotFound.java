@@ -1,4 +1,4 @@
-package com.yoi.GameManager.Exceptions.User;
+package com.yoi.GameManager.Exceptions.Appuser;
 
 import com.yoi.GameManager.Exceptions.ErrorMessages;
 
