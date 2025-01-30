@@ -11,11 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 @UtilityClass
 public final class DatabaseUtils {
 
-//    public UUID generateUUID(){
-//        return UUID.randomUUID();
-//    }
-
-    AppuserRepositoryJPA appuserRepositoryJPA ;
     @Operation(summary = "Genera una contraseña hasheada para guardarla en las bases de datos")
     public String generateHashedPassword(String password){
         return BCrypt.hashpw(password,BCrypt.gensalt());
