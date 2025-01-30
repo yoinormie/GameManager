@@ -1,5 +1,8 @@
 package com.yoi.GameManager.Exceptions;
 
+import com.yoi.GameManager.Exceptions.Appuser.IncorrectPassword;
+import com.yoi.GameManager.Exceptions.Appuser.UserNotFound;
+import com.yoi.GameManager.Exceptions.Appuser.UserNotValid;
 import com.yoi.GameManager.Exceptions.Owner.OwnerNotFound;
 import com.yoi.GameManager.Model.ErrorResponse;
 import org.springframework.http.HttpStatus;
@@ -15,6 +18,27 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse OwnerNotFoundException(OwnerNotFound exception){
+        return new ErrorResponse(exception.getMessage());
+    }
+
+    @ExceptionHandler(UserNotFound.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse UserNotFoundException(UserNotFound exception){
+        return new ErrorResponse(exception.getMessage());
+    }
+
+    @ExceptionHandler(UserNotValid.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    public ErrorResponse UserNotValidException(UserNotValid exception){
+        return new ErrorResponse(exception.getMessage());
+    }
+
+    @ExceptionHandler(IncorrectPassword.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
+    public ErrorResponse IncorrectPasswordException(IncorrectPassword exception){
         return new ErrorResponse(exception.getMessage());
     }
 }
