@@ -9,6 +9,7 @@ public enum ErrorMessages {
     INCORRECT_PASSWORD("La contraseña que se ha proporcionado no es correcta"),
     UNIDENTIFIED_USER("El usuario que has puesto no ha sido identificado"),
     OWNER_NOT_FOUND("El propietario no ha sido encontrado "),
+    INVALID_OWNER("El owner no es válido"),
     UNABLE_TO_INSTANCE("Esta clase no es posible de instanciar ");
 
     private String message;

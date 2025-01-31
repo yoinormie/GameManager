@@ -3,8 +3,10 @@ package com.yoi.GameManager.Exceptions;
 import com.yoi.GameManager.Exceptions.Appuser.IncorrectPassword;
 import com.yoi.GameManager.Exceptions.Appuser.UserNotFound;
 import com.yoi.GameManager.Exceptions.Appuser.UserNotValid;
+import com.yoi.GameManager.Exceptions.Owner.InvalidOwner;
 import com.yoi.GameManager.Exceptions.Owner.OwnerNotFound;
 import com.yoi.GameManager.Model.ErrorResponse;
+import jakarta.persistence.ElementCollection;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -39,6 +41,13 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
     public ErrorResponse IncorrectPasswordException(IncorrectPassword exception){
+        return new ErrorResponse(exception.getMessage());
+    }
+
+    @ExceptionHandler(InvalidOwner.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponse InvalidOwnerException(InvalidOwner exception){
         return new ErrorResponse(exception.getMessage());
     }
 }
