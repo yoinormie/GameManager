@@ -20,7 +20,6 @@ import java.time.Instant;
 public class AppuserMongoDB {
 
     @Id
-    @Field(name = "idUser")
     private String idUser;
 
     @Field(name = "username")
@@ -50,18 +49,4 @@ public class AppuserMongoDB {
         userMongo.setLastModification(Instant.now());
         return userMongo;
     }
-
-//    public static AppuserMongoDB updateUser(Appuser user, AppuserMongoDB existingUserMDB){
-//        AppuserMongoDB appuserMongoDB = new AppuserMongoDB();
-//        appuserMongoDB.setIdUser(user.getId_user().toString());
-//        appuserMongoDB.setUsername(user.getUsername());
-//        appuserMongoDB.setEmail(user.getEmail());
-//        appuserMongoDB.setPassword(user.getPassword());
-//        appuserMongoDB.setLastModification(Instant.now());
-//
-//        if(existingUserMDB.getCreateDate() != null){
-//            appuserMongoDB.setCreateDate(existingUserMDB.getCreateDate());
-//        }
-//        return appuserMongoDB;
-//    }
 }
