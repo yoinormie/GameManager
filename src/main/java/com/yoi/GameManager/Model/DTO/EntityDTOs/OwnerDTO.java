@@ -24,6 +24,7 @@ public class OwnerDTO {
     private List<Ownership> ownershipList;
 
     public OwnerDTO(Owner saved) {
+        this.UUID_owner = saved.getId_owner();
         this.name = saved.getName();
         this.firstSurname = saved.getFirstSurname();
         this.secondSurname = saved.getSecondSurname();
