@@ -1,5 +1,6 @@
 package com.yoi.GameManager.Model.Entity.MongoDB;
 
+import com.yoi.GameManager.Model.Entity.JPA.Owner;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,4 +28,14 @@ public class OwnerMongoDB {
 
     @Field(name = "idUser")
     private String idUser;
+
+    public static OwnerMongoDB newOwner(Owner owner){
+        OwnerMongoDB ownerMongoDB = new OwnerMongoDB();
+        ownerMongoDB.setIdOwner(owner.getId_owner().toString());
+        ownerMongoDB.setName(owner.getName());
+        ownerMongoDB.setFirstSurname(owner.getFirstSurname());
+        ownerMongoDB.setSecondSurname(owner.getSecondSurname());
+        ownerMongoDB.setIdUser(owner.getUserId().toString());
+        return ownerMongoDB;
+    }
 }
