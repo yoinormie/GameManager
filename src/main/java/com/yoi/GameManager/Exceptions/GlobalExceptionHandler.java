@@ -1,6 +1,7 @@
 package com.yoi.GameManager.Exceptions;
 
 import com.yoi.GameManager.Exceptions.Appuser.IncorrectPassword;
+import com.yoi.GameManager.Exceptions.Appuser.UserNotDeserialized;
 import com.yoi.GameManager.Exceptions.Appuser.UserNotFound;
 import com.yoi.GameManager.Exceptions.Appuser.UserNotValid;
 import com.yoi.GameManager.Exceptions.Owner.InvalidOwner;
@@ -48,6 +49,13 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorResponse InvalidOwnerException(InvalidOwner exception){
+        return new ErrorResponse(exception.getMessage());
+    }
+
+    @ExceptionHandler(UserNotDeserialized.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    public ErrorResponse UnableToDeserialize(UserNotDeserialized exception){
         return new ErrorResponse(exception.getMessage());
     }
 }
