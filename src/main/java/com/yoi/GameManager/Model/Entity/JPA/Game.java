@@ -11,13 +11,13 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "game")
-@Document(collection = "Game")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class Game {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id_game;
 
     @Column(name = "title",nullable = false)

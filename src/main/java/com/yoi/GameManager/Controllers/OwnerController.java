@@ -4,6 +4,7 @@ import com.yoi.GameManager.Model.DTO.EntityDTOs.OwnerDTO;
 import com.yoi.GameManager.Model.Entity.JPA.Owner;
 import com.yoi.GameManager.Services.OwnerService;
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class OwnerController {
     }
 
     @Operation(summary = "Crea un nuevo owner")
-    @PostMapping()
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OwnerDTO> createOwner(@RequestBody Owner owner){
         return ownerService.createOwner(owner);
     }
@@ -31,12 +32,16 @@ public class OwnerController {
         return ownerService.getOwnerByName(name);
     }
 
+    @Operation(summary = "Actualiza el nombre de un owner")
+    @PutMapping("/newOwnerName/{name}")
+    public ResponseEntity<OwnerDTO> updateOwnerName(@RequestBody String name, @RequestBody String newName){
+        return ownerService.updateOwnerName(name,newName);
+    }
+
     @Operation(summary = "Borra a un owner")
-    @DeleteMapping("/{id}")
-    public ResponseEntity deleteOwner(@PathVariable Long id){
-        //return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
-        //return ownerService.deleteOwner(id);
-        return null;
+    @DeleteMapping("/{name}")
+    public ResponseEntity deleteOwner(@RequestBody String name){
+        return ownerService.deleteOwner(name);
     }
 
 }

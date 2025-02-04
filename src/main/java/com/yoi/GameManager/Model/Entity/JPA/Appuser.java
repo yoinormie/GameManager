@@ -1,12 +1,13 @@
 package com.yoi.GameManager.Model.Entity.JPA;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+
 
 import java.util.List;
 import java.util.UUID;
@@ -17,7 +18,6 @@ import java.util.UUID;
 @Data
 @ToString
 @AllArgsConstructor
-@Document(collection = "Appuser")
 public class Appuser {
     @Id
     @Column(name = "id_user", nullable = false)
@@ -34,5 +34,6 @@ public class Appuser {
     private String password;
 
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private List<Owner> ownerList;
 }
