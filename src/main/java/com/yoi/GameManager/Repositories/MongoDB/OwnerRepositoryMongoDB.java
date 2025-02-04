@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface OwnerRepositoryMongoDB extends MongoRepository<OwnerMongoDB, UUID> {
+public interface OwnerRepositoryMongoDB extends MongoRepository<OwnerMongoDB, String> {
 }
