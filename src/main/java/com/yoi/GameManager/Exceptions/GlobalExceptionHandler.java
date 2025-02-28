@@ -4,6 +4,8 @@ import com.yoi.GameManager.Exceptions.Appuser.IncorrectPassword;
 import com.yoi.GameManager.Exceptions.Appuser.UserNotDeserialized;
 import com.yoi.GameManager.Exceptions.Appuser.UserNotFound;
 import com.yoi.GameManager.Exceptions.Appuser.UserNotValid;
+import com.yoi.GameManager.Exceptions.Game.GameNotFound;
+import com.yoi.GameManager.Exceptions.Game.InvalidGame;
 import com.yoi.GameManager.Exceptions.Owner.InvalidOwner;
 import com.yoi.GameManager.Exceptions.Owner.OwnerNotFound;
 import com.yoi.GameManager.Model.ErrorResponse;
@@ -57,5 +59,19 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     public ErrorResponse UnableToDeserialize(UserNotDeserialized exception){
         return new ErrorResponse(exception.getMessage());
+    }
+
+    @ExceptionHandler(InvalidGame.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    public ErrorResponse InvalidGameException(InvalidGame exception){
+        return new ErrorResponse(exception.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse GameNotFound(GameNotFound exception){
+        return new ErrorResponse((exception.getMessage()));
     }
 }

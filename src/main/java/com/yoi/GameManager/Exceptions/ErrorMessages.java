@@ -11,13 +11,13 @@ public enum ErrorMessages {
     UNABLE_TO_DESERIALIZE_USER("El user no ha podido ser deserializado"),
     OWNER_NOT_FOUND("El propietario no ha sido encontrado "),
     INVALID_OWNER("El owner no es válido"),
-    UNABLE_TO_INSTANCE("Esta clase no es posible de instanciar ");
+    UNABLE_TO_INSTANCE("Esta clase no es posible de instanciar "),
+    GAME_NOT_FOUND("El juego no ha sido encontrado"),
+    INVALID_GAME("El juego es inválido");
 
     private String message;
 
     ErrorMessages(String message) {
         this.message = message;
     }
-
-
 }
