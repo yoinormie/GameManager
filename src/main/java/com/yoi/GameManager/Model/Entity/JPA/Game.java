@@ -35,6 +35,9 @@ public class Game {
     @Column(name = "metacritic_score")
     private BigDecimal metacritic_score;
 
+    @Column(name = "platforms")
+    private String platforms;
+
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ownership> ownershipList;
 }
