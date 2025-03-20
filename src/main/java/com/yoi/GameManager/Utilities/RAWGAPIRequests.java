@@ -1,4 +1,4 @@
-package com.yoi.GameManager.Services;
+package com.yoi.GameManager.Utilities;
 import com.yoi.GameManager.Model.Entity.JPA.Game;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
