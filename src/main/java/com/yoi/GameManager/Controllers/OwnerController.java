@@ -1,6 +1,7 @@
 package com.yoi.GameManager.Controllers;
 
 import com.yoi.GameManager.Model.DTO.EntityDTOs.OwnerDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.OwnerRequests.OwnerDTOCreate;
 import com.yoi.GameManager.Model.Entity.JPA.Owner;
 import com.yoi.GameManager.Services.OwnerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +23,7 @@ public class OwnerController {
 
     @Operation(summary = "Crea un nuevo owner")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OwnerDTO> createOwner(@RequestBody Owner owner){
+    public ResponseEntity<OwnerDTO> createOwner(@RequestBody OwnerDTOCreate owner){
         return ownerService.createOwner(owner);
     }
 

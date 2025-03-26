@@ -27,7 +27,7 @@ public class OwnerMongoDB {
     private String secondSurname;
 
     @Field(name = "idUser")
-    private String idUser;
+    private AppuserMongoDB idUser;
 
     public static OwnerMongoDB newOwner(Owner owner){
         OwnerMongoDB ownerMongoDB = new OwnerMongoDB();
@@ -35,7 +35,7 @@ public class OwnerMongoDB {
         ownerMongoDB.setName(owner.getName());
         ownerMongoDB.setFirstSurname(owner.getFirstSurname());
         ownerMongoDB.setSecondSurname(owner.getSecondSurname());
-        ownerMongoDB.setIdUser(owner.getUserId().toString());
+        ownerMongoDB.setIdUser(AppuserMongoDB.newUser(owner.getUserId()));
         return ownerMongoDB;
     }
 }

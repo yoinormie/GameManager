@@ -1,5 +1,6 @@
 package com.yoi.GameManager.Model.Entity.JPA;
 
+import com.yoi.GameManager.Model.DTO.RequestDTOs.GameRequest.RAWGDTOs.GameDTORequest;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -40,4 +41,9 @@ public class Game {
 
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ownership> ownershipList;
+
+    public static Game newGame(GameDTORequest gameDTORequest){
+
+        return null;
+    }
 }

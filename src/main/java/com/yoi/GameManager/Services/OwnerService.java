@@ -4,6 +4,7 @@ import com.yoi.GameManager.Exceptions.Appuser.UserNotFound;
 import com.yoi.GameManager.Exceptions.Owner.InvalidOwner;
 import com.yoi.GameManager.Exceptions.Owner.OwnerNotFound;
 import com.yoi.GameManager.Model.DTO.EntityDTOs.OwnerDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.OwnerRequests.OwnerDTOCreate;
 import com.yoi.GameManager.Model.Entity.JPA.Owner;
 import com.yoi.GameManager.Model.Entity.MongoDB.OwnerMongoDB;
 import com.yoi.GameManager.Repositories.JPA.AppuserRepositoryJPA;
@@ -30,10 +31,10 @@ public class OwnerService {
     }
 
     @Operation(summary = "Crea un Owner en las BB.DD")
-    public ResponseEntity<OwnerDTO> createOwner(Owner owner){
-        if(!validarCreacionOwner(owner))
+    public ResponseEntity<OwnerDTO> createOwner(OwnerDTOCreate owner){
+        if(!comprobarNombresOwner(owner))
             throw new InvalidOwner();
-        if(!appuserRepositoryJPA.findById(owner.getUserId().getId_user()).isPresent())
+        if(appuserRepositoryJPA.findById(owner.getUserId()).isEmpty())
             throw new UserNotFound();
         return guardarOwnerEnBBDD(owner);
     }
@@ -88,19 +89,16 @@ public class OwnerService {
         return ResponseEntity.status(HttpStatus.OK).body(new OwnerDTO(search));
     }
 
-    private ResponseEntity<OwnerDTO> guardarOwnerEnBBDD(Owner owner) {
-        ownerRepositoryJPA.save(owner);
-        OwnerMongoDB ownerDocument = OwnerMongoDB.newOwner(owner);
-        ownerDocument.setIdOwner(ownerRepositoryJPA.findByName(owner.getName()).get().getId_owner().toString());
+    private ResponseEntity<OwnerDTO> guardarOwnerEnBBDD(OwnerDTOCreate owner) {
+        Owner ownerCreated = Owner.newOwner(owner, appuserRepositoryJPA.findById(owner.getUserId()).get());
+        ownerRepositoryJPA.save(ownerCreated);
+        OwnerMongoDB ownerDocument = OwnerMongoDB.newOwner(ownerCreated);
+        ownerDocument.setIdOwner(owner.getUserId().toString());
         ownerRepositoryMongoDB.save(ownerDocument);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new OwnerDTO(owner));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new OwnerDTO(ownerCreated));
     }
 
-    private static boolean validarCreacionOwner(Owner owner) {
-        return comprobarNombresOwner(owner) && !owner.getUserId().getId_user().toString().isBlank();
-    }
-
-    private static boolean comprobarNombresOwner(Owner owner) {
+    private static boolean comprobarNombresOwner(OwnerDTOCreate owner) {
         return !owner.getName().isBlank() && !owner.getFirstSurname().isBlank();
     }
 }
