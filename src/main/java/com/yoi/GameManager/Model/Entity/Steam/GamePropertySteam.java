@@ -34,8 +34,7 @@ class GamepropertyId implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof GamepropertyId)) return false;
-        GamepropertyId that = (GamepropertyId) o;
+        if (!(o instanceof GamepropertyId that)) return false;
         return appid.equals(that.appid) && steamid.equals(that.steamid);
     }
 

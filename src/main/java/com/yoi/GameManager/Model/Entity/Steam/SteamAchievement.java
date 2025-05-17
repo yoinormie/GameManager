@@ -43,8 +43,7 @@ class SteamAchievementId implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SteamAchievementId)) return false;
-        SteamAchievementId that = (SteamAchievementId) o;
+        if (!(o instanceof SteamAchievementId that)) return false;
         return appid.equals(that.appid) && steamid.equals(that.steamid) && name.equals(that.name);
     }
 
