@@ -1,4 +1,4 @@
-package com.yoi.GameManager.Model.DTO.EntityDTOs;
+package com.yoi.GameManager.Model.DTO.EntityDTOs.GameManager;
 
 import com.yoi.GameManager.Model.Entity.GameManager.Appuser;
 import lombok.AllArgsConstructor;
