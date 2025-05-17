@@ -8,7 +8,7 @@ import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.DeleteUserDTO;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUserEmailDTO;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUserPasswordDTO;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUsernameDTO;
-import com.yoi.GameManager.Model.Entity.JPA.Appuser;
+import com.yoi.GameManager.Model.Entity.Appuser;
 import com.yoi.GameManager.Model.Entity.MongoDB.AppuserMongoDB;
 import com.yoi.GameManager.Repositories.JPA.AppuserRepositoryJPA;
 import com.yoi.GameManager.Repositories.MongoDB.AppuserRepositoryMongoDB;
