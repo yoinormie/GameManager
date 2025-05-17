@@ -1,4 +1,4 @@
-package com.yoi.GameManager.Model.Entity;
+package com.yoi.GameManager.Model.Entity.GameManager;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -5,7 +5,7 @@ import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.DeleteUserDTO;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUserEmailDTO;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUserPasswordDTO;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUsernameDTO;
-import com.yoi.GameManager.Model.Entity.Appuser;
+import com.yoi.GameManager.Model.Entity.GameManager.Appuser;
 import com.yoi.GameManager.Services.AppuserService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;

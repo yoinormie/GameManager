@@ -1,6 +1,6 @@
 package com.yoi.GameManager.Repositories.JPA;
 
-import com.yoi.GameManager.Model.Entity.Appuser;
+import com.yoi.GameManager.Model.Entity.GameManager.Appuser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,6 +1,6 @@
 package com.yoi.GameManager.Model.DTO.EntityDTOs;
 
-import com.yoi.GameManager.Model.Entity.Appuser;
+import com.yoi.GameManager.Model.Entity.GameManager.Appuser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
