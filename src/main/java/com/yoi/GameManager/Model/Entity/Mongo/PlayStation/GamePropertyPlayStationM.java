@@ -23,5 +23,5 @@ public class GamePropertyPlayStationM {
     private BigDecimal percentageProgress;
     private LocalDateTime lastUpdateTime;
 
-    // getters y setters
+
 }
