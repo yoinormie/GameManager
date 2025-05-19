@@ -1,7 +1,7 @@
 package com.yoi.GameManager.Repositories.JPA.PlayStation;
 
 import com.yoi.GameManager.Model.Entity.JPA.PlayStation.UserPlaystationNetwork;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserPSNRepositoryJPA extends Repository<UserPlaystationNetwork,String> {
+public interface UserPSNRepositoryJPA extends JpaRepository<UserPlaystationNetwork,String> {
 }

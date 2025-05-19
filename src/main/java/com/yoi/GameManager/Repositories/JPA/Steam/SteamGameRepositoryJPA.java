@@ -1,7 +1,7 @@
 package com.yoi.GameManager.Repositories.JPA.Steam;
 
 import com.yoi.GameManager.Model.Entity.JPA.Steam.SteamGame;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SteamGameRepositoryJPA extends Repository<SteamGame, Integer> {
+public interface SteamGameRepositoryJPA extends JpaRepository<SteamGame, Integer> {
 }
