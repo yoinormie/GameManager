@@ -1,4 +1,4 @@
-package com.yoi.GameManager.Model.Entity.Steam;
+package com.yoi.GameManager.Model.Entity.JPA.Steam;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
@@ -17,7 +17,6 @@ public class GamePropertySteam {
     @Column(name = "steamid", length = 20, nullable = false)
     private String steamid;
 
-    // getters y setters
 }
 
 class GamepropertyId implements Serializable {

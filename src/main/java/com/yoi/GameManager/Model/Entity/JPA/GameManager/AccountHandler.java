@@ -1,14 +1,12 @@
-package com.yoi.GameManager.Model.Entity.GameManager;
+package com.yoi.GameManager.Model.Entity.JPA.GameManager;
 
-import com.yoi.GameManager.Model.Entity.PlayStation.UserPlaystationNetwork;
-import com.yoi.GameManager.Model.Entity.Steam.SteamProfile;
+import com.yoi.GameManager.Model.Entity.JPA.PlayStation.UserPlaystationNetwork;
+import com.yoi.GameManager.Model.Entity.JPA.Steam.SteamProfile;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import java.io.Serializable;
 
 @Data
 @AllArgsConstructor

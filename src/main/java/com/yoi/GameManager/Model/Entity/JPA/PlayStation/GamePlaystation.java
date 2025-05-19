@@ -1,4 +1,4 @@
-package com.yoi.GameManager.Model.Entity.PlayStation;
+package com.yoi.GameManager.Model.Entity.JPA.PlayStation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

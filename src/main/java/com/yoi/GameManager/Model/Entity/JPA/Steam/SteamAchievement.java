@@ -1,4 +1,4 @@
-package com.yoi.GameManager.Model.Entity.Steam;
+package com.yoi.GameManager.Model.Entity.JPA.Steam;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
@@ -24,7 +24,6 @@ public class SteamAchievement {
     @Column(name = "achieved")
     private Boolean achieved;
 
-    // getters y setters
 }
 
 class SteamAchievementId implements Serializable {

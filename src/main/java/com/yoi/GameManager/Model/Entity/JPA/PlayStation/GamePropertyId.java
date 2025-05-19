@@ -1,4 +1,4 @@
-package com.yoi.GameManager.Model.Entity.PlayStation;
+package com.yoi.GameManager.Model.Entity.JPA.PlayStation;
 
 import java.io.Serializable;
 import java.util.Objects;

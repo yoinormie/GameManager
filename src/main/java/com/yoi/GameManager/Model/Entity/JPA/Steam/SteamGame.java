@@ -1,4 +1,4 @@
-package com.yoi.GameManager.Model.Entity.Steam;
+package com.yoi.GameManager.Model.Entity.JPA.Steam;
 
 import jakarta.persistence.*;
 

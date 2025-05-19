@@ -1,4 +1,4 @@
-package com.yoi.GameManager.Model.Entity.GameManager;
+package com.yoi.GameManager.Model.Entity.JPA.GameManager;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

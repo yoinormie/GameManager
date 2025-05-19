@@ -1,4 +1,4 @@
-package com.yoi.GameManager.Model.Entity.PlayStation;
+package com.yoi.GameManager.Model.Entity.JPA.PlayStation;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
