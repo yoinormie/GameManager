@@ -32,4 +32,7 @@ public class AccountHandler {
     @Column(name = "handler_name", nullable = false, length = 100)
     private String handlerName;
 
+    @JoinColumn(name = "id_user", unique = true, nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private Appuser user;
 }

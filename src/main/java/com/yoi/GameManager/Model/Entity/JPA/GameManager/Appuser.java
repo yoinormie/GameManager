@@ -1,5 +1,6 @@
 package com.yoi.GameManager.Model.Entity.JPA.GameManager;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -29,9 +31,8 @@ public class Appuser {
 
     @Column(name = "password",nullable = false)
     private String password;
-/**
+
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<Owner> ownerList;
-**/
+    private List<AccountHandler> handlerList;
     }
