@@ -1,9 +1,6 @@
 package com.yoi.GameManager.Utilities;
 
 
-import java.util.UUID;
-
-import com.yoi.GameManager.Repositories.JPA.AppuserRepositoryJPA;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.crypto.bcrypt.BCrypt;
