@@ -4,14 +4,12 @@ import com.yoi.GameManager.Exceptions.Appuser.IncorrectPassword;
 import com.yoi.GameManager.Exceptions.Appuser.UserNotFound;
 import com.yoi.GameManager.Exceptions.Appuser.UserNotValid;
 import com.yoi.GameManager.Model.DTO.EntityDTOs.GameManager.AppuserDTO;
-import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.DeleteUserDTO;
-import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUserEmailDTO;
-import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUserPasswordDTO;
-import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUsernameDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.GameManager.AppuserRequests.DeleteUserDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.GameManager.AppuserRequests.ModifyUserEmailDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.GameManager.AppuserRequests.ModifyUserPasswordDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.GameManager.AppuserRequests.ModifyUsernameDTO;
 import com.yoi.GameManager.Model.Entity.JPA.GameManager.Appuser;
-import com.yoi.GameManager.Model.Entity.MongoDB.AppuserMongoDB;
-import com.yoi.GameManager.Repositories.JPA.AppuserRepositoryJPA;
-import com.yoi.GameManager.Repositories.MongoDB.AppuserRepositoryMongoDB;
+import com.yoi.GameManager.Repositories.JPA.GameManager.AppuserRepositoryJPA;
 import com.yoi.GameManager.Utilities.DatabaseUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
@@ -21,11 +19,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class AppuserService {
     private final AppuserRepositoryJPA appuserRepositoryJPA;
-    private final AppuserRepositoryMongoDB appuserRepositoryMongoDB;
+    //private final AppuserRepositoryMongoDB appuserRepositoryMongoDB;
 
-    public AppuserService(AppuserRepositoryJPA appuserRepositoryJPA, AppuserRepositoryMongoDB appuserRepositoryMongoDB) {
+    public AppuserService(AppuserRepositoryJPA appuserRepositoryJPA ) {
         this.appuserRepositoryJPA = appuserRepositoryJPA;
-        this.appuserRepositoryMongoDB = appuserRepositoryMongoDB;
+       // this.appuserRepositoryMongoDB = appuserRepositoryMongoDB;
     }
 
     @Operation(summary = "Crea un usuario en las BB.DD.")
@@ -70,8 +68,8 @@ public class AppuserService {
             appuserRepositoryJPA.save(user);
 
             //Crea un objeto de la base de mongo a través de un usuario de la entidad de JPA, y lo guarda en la base, pero 1ro busca la fecha de creación sino la actualiza como null.
-            AppuserMongoDB existingDocument = obtenerYModificarUsuarioMongoDB(request, user.getId_user().toString());
-            appuserRepositoryMongoDB.save(existingDocument);
+          //  AppuserMongoDB existingDocument = obtenerYModificarUsuarioMongoDB(request, user.getId_user().toString());
+         //   appuserRepositoryMongoDB.save(existingDocument);
             return ResponseEntity.status(HttpStatus.OK).body(new AppuserDTO(user));
         }
         //Lanza una excepción si no entra dentro de la condición
@@ -86,8 +84,8 @@ public class AppuserService {
             user.setEmail(request.getNewEmail());
             appuserRepositoryJPA.save(user);
 
-            AppuserMongoDB existingDocument = obtenerYModificarUsuarioMongoDB(request,user.getId_user().toString());
-            appuserRepositoryMongoDB.save(existingDocument);
+           // AppuserMongoDB existingDocument = obtenerYModificarUsuarioMongoDB(request,user.getId_user().toString());
+           // appuserRepositoryMongoDB.save(existingDocument);
             return ResponseEntity.status(HttpStatus.OK).body(new AppuserDTO(user));
         }
         throw new UserNotValid();
@@ -101,8 +99,8 @@ public class AppuserService {
             user.setPassword(DatabaseUtils.generateHashedPassword(request.getNewPassword()));
             appuserRepositoryJPA.save(user);
 
-            AppuserMongoDB existingDocument = obtenerYModificarUsuarioMongoDB(user);
-            appuserRepositoryMongoDB.save(existingDocument);
+         //   AppuserMongoDB existingDocument = obtenerYModificarUsuarioMongoDB(user);
+          //  appuserRepositoryMongoDB.save(existingDocument);
             return ResponseEntity.status(HttpStatus.OK).body(new AppuserDTO(user));
         }
         throw new UserNotValid();
@@ -114,7 +112,7 @@ public class AppuserService {
      */
     private void guardarUsuarioEnBBDD(Appuser user) {
         appuserRepositoryJPA.save(user);
-        appuserRepositoryMongoDB.save(AppuserMongoDB.newUser(user));
+       // appuserRepositoryMongoDB.save(AppuserMongoDB.newUser(user));
     }
 
     /**
@@ -178,6 +176,7 @@ public class AppuserService {
      * @param id para buscar a X usuario
      * @return el documento de Mongo con el usuario modificado
      */
+    /*
     private AppuserMongoDB obtenerYModificarUsuarioMongoDB(ModifyUsernameDTO request, String id) {
         AppuserMongoDB existingDocument = appuserRepositoryMongoDB.findById(id).get();
         existingDocument.setUsername(request.getNewUsername());
@@ -190,7 +189,8 @@ public class AppuserService {
      * @param id para buscar a X usuario
      * @return el documento de Mongo con el usuario modificado
      */
-    private AppuserMongoDB obtenerYModificarUsuarioMongoDB(ModifyUserEmailDTO request, String id) {
+
+   /* private AppuserMongoDB obtenerYModificarUsuarioMongoDB(ModifyUserEmailDTO request, String id) {
         AppuserMongoDB existingDocument = appuserRepositoryMongoDB.findById(id).get();
         existingDocument.setUsername(request.getNewEmail());
         return existingDocument;
@@ -200,7 +200,7 @@ public class AppuserService {
         AppuserMongoDB existingDocument = appuserRepositoryMongoDB.findById(appuser.getId_user().toString()).get();
         existingDocument.setPassword(appuser.getPassword());
         return existingDocument;
-    }
+    }*/
 
     /**
      * Método que mira si los datos valen o no
@@ -234,6 +234,6 @@ public class AppuserService {
      */
     private void eliminacionDeLasBases(Appuser userToDelete) {
         appuserRepositoryJPA.delete(userToDelete);
-        appuserRepositoryMongoDB.deleteByUsername(AppuserMongoDB.newUser(userToDelete).getUsername());
+       // appuserRepositoryMongoDB.deleteByUsername(AppuserMongoDB.newUser(userToDelete).getUsername());
     }
 }

@@ -1,10 +1,10 @@
 package com.yoi.GameManager.Controllers;
 
 import com.yoi.GameManager.Model.DTO.EntityDTOs.GameManager.AppuserDTO;
-import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.DeleteUserDTO;
-import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUserEmailDTO;
-import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUserPasswordDTO;
-import com.yoi.GameManager.Model.DTO.RequestDTOs.AppuserRequests.ModifyUsernameDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.GameManager.AppuserRequests.DeleteUserDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.GameManager.AppuserRequests.ModifyUserEmailDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.GameManager.AppuserRequests.ModifyUserPasswordDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.GameManager.AppuserRequests.ModifyUsernameDTO;
 import com.yoi.GameManager.Model.Entity.JPA.GameManager.Appuser;
 import com.yoi.GameManager.Services.AppuserService;
 import io.swagger.v3.oas.annotations.Operation;

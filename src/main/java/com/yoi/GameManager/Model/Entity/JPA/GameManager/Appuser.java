@@ -32,7 +32,7 @@ public class Appuser {
     @Column(name = "password",nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "id_user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<AccountHandler> handlerList;
     }
