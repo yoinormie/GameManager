@@ -1,5 +1,6 @@
 package com.yoi.GameManager.Model.Entity.JPA.GameManager;
 
+import com.yoi.GameManager.Model.DTO.RequestDTOs.GameManager.AccountHandlerRequest.HandlerCreate;
 import com.yoi.GameManager.Model.Entity.JPA.PlayStation.UserPlaystationNetwork;
 import com.yoi.GameManager.Model.Entity.JPA.Steam.SteamProfile;
 import jakarta.persistence.*;
@@ -34,5 +35,13 @@ public class AccountHandler {
 
     @JoinColumn(name = "id_user", unique = true, nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    private Appuser user;
+    private Appuser id_user;
+
+    public static AccountHandler createAH(HandlerCreate handler, Appuser appuser) {
+        AccountHandler accountHandler = new AccountHandler();
+        accountHandler.setHandlerName(handler.getName());
+        accountHandler.setId(new AccountHandlerEmbeddable(handler.getSteamId(), handler.getAccountId()));
+        accountHandler.setId_user(appuser);
+        return accountHandler;
+    }
 }
