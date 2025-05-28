@@ -1,6 +1,8 @@
 package com.yoi.GameManager.Model.Entity.JPA.PlayStation;
 
+import com.yoi.GameManager.Model.DTO.EntityDTOs.PlayStation.PlayStationPropertyDTO;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -8,6 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "game_property")
 @IdClass(GamePropertyId.class)
+@Data
 public class GamePropertyPlayStation {
 
     @Id
@@ -36,5 +39,20 @@ public class GamePropertyPlayStation {
     @Column(name = "last_update_time")
     private LocalDateTime lastUpdateTime;
 
-    // getters y setters
+    public GamePropertyPlayStation(PlayStationPropertyDTO dto) {
+        this.accountId = dto.getAccountId();
+        this.npCommunicationId = dto.getNpCommunicationId();
+
+        // Extraer los trofeos del objeto anidado TrophyCounts
+        if (dto.getTrophyProgress() != null) {
+            this.trophyGold = dto.getTrophyProgress().getGold();
+            this.trophySilver = dto.getTrophyProgress().getSilver();
+            this.trophyBronze = dto.getTrophyProgress().getBronze();
+            this.trophyTotal = dto.getTrophyProgress().getPlatinum(); // Ajusta si el total se calcula diferente
+        }
+
+        this.percentageProgress = dto.getPercentageProgress();
+        this.lastUpdateTime = dto.getLastUpdateTime();
+    }
+
 }

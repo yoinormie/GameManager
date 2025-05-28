@@ -1,9 +1,13 @@
 package com.yoi.GameManager.Model.Entity.JPA.Steam;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Table(name = "steamprofile")
+@Data
+@ToString
 public class SteamProfile {
 
     @Id

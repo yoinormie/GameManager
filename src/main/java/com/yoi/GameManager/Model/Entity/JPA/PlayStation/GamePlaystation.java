@@ -1,4 +1,6 @@
 package com.yoi.GameManager.Model.Entity.JPA.PlayStation;
+import com.yoi.GameManager.Model.DTO.EntityDTOs.PlayStation.PlayStationGameDTO;
+import com.yoi.GameManager.Model.DTO.EntityDTOs.PlayStation.TrophyCounts;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,5 +35,25 @@ public class GamePlaystation {
     @Column(name = "total_trophies_total")
     private Integer totalTrophiesTotal;
 
+    public GamePlaystation(PlayStationGameDTO dto) {
+        this.npCommunicationId = dto.getNpCommunicationId();
+        this.gameTitle = dto.getGameTitle();
+        this.platform = dto.getPlatform();
 
+        TrophyCounts trophies = dto.getTotalTrophies();
+        if (trophies != null) {
+            this.totalTrophiesGold = trophies.getGold();
+            this.totalTrophiesSilver = trophies.getSilver();
+            this.totalTrophiesBronze = trophies.getBronze();
+            this.totalTrophiesTotal =
+                    (trophies.getGold() != null ? trophies.getGold() : 0) +
+                            (trophies.getSilver() != null ? trophies.getSilver() : 0) +
+                            (trophies.getBronze() != null ? trophies.getBronze() : 0);
+        } else {
+            this.totalTrophiesGold = 0;
+            this.totalTrophiesSilver = 0;
+            this.totalTrophiesBronze = 0;
+            this.totalTrophiesTotal = 0;
+        }
+    }
 }

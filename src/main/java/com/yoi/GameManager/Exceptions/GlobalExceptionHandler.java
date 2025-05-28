@@ -4,10 +4,7 @@ import com.yoi.GameManager.Exceptions.Appuser.IncorrectPassword;
 import com.yoi.GameManager.Exceptions.Appuser.UserNotDeserialized;
 import com.yoi.GameManager.Exceptions.Appuser.UserNotFound;
 import com.yoi.GameManager.Exceptions.Appuser.UserNotValid;
-import com.yoi.GameManager.Exceptions.Game.GameNotFound;
-import com.yoi.GameManager.Exceptions.Game.InvalidGame;
-import com.yoi.GameManager.Exceptions.Owner.InvalidOwner;
-import com.yoi.GameManager.Exceptions.Owner.OwnerNotFound;
+
 import com.yoi.GameManager.Model.ErrorResponse;
 import jakarta.persistence.ElementCollection;
 import org.springframework.http.HttpStatus;
@@ -19,12 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(OwnerNotFound.class)
-    @ResponseBody
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse OwnerNotFoundException(OwnerNotFound exception){
-        return new ErrorResponse(exception.getMessage());
-    }
+
 
     @ExceptionHandler(UserNotFound.class)
     @ResponseBody
@@ -47,13 +39,6 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(exception.getMessage());
     }
 
-    @ExceptionHandler(InvalidOwner.class)
-    @ResponseBody
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ErrorResponse InvalidOwnerException(InvalidOwner exception){
-        return new ErrorResponse(exception.getMessage());
-    }
-
     @ExceptionHandler(UserNotDeserialized.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
@@ -61,17 +46,4 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(exception.getMessage());
     }
 
-    @ExceptionHandler(InvalidGame.class)
-    @ResponseBody
-    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-    public ErrorResponse InvalidGameException(InvalidGame exception){
-        return new ErrorResponse(exception.getMessage());
-    }
-
-    @ExceptionHandler
-    @ResponseBody
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse GameNotFound(GameNotFound exception){
-        return new ErrorResponse((exception.getMessage()));
-    }
 }
