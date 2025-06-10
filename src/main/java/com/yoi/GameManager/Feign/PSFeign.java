@@ -1,5 +1,6 @@
 package com.yoi.GameManager.Feign;
 
+import com.yoi.GameManager.Config.PSFeignConfig;
 import com.yoi.GameManager.Model.DTO.EntityDTOs.PlayStation.EnvolvedLists;
 import com.yoi.GameManager.Model.DTO.EntityDTOs.PlayStation.PlayStationGameDTO;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.PlayStationRequest.PSGamesRequestDTO;
@@ -9,7 +10,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "PSFeign", url = "http://localhost:3050/playstation")
+@FeignClient(name = "PSFeign", url = "http://localhost:3050/playstation", configuration = PSFeignConfig.class)
 public interface PSFeign {
     @PostMapping("/searchuserwithan")
     UserPlaystationNetwork getUser(@RequestBody PSUserRequestDTO requestDTO);

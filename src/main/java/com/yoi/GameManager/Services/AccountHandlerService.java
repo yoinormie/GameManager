@@ -8,14 +8,17 @@ import com.yoi.GameManager.Model.DTO.EntityDTOs.PlayStation.EnvolvedLists;
 import com.yoi.GameManager.Model.DTO.EntityDTOs.PlayStation.PlayStationGameDTO;
 import com.yoi.GameManager.Model.DTO.EntityDTOs.PlayStation.PlayStationPropertyDTO;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.GameManager.AccountHandlerRequest.HandlerCreate;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.GameManager.AccountHandlerRequest.LoginRequest;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.PlayStationRequest.PSGamesRequestDTO;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.PlayStationRequest.PSUserRequestDTO;
+import com.yoi.GameManager.Model.DTO.RequestDTOs.SteamRequest.SteamGamesRequestDTO;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.SteamRequest.SteamUserRequestDTO;
 import com.yoi.GameManager.Model.Entity.JPA.GameManager.AccountHandler;
 import com.yoi.GameManager.Model.Entity.JPA.GameManager.Appuser;
 import com.yoi.GameManager.Model.Entity.JPA.PlayStation.GamePlaystation;
 import com.yoi.GameManager.Model.Entity.JPA.PlayStation.GamePropertyPlayStation;
 import com.yoi.GameManager.Model.Entity.JPA.PlayStation.UserPlaystationNetwork;
+import com.yoi.GameManager.Model.Entity.JPA.Steam.SteamGame;
 import com.yoi.GameManager.Model.Entity.JPA.Steam.SteamProfile;
 import com.yoi.GameManager.Repositories.JPA.GameManager.AccountHandlerRepositoryJPA;
 import com.yoi.GameManager.Repositories.JPA.GameManager.AppuserRepositoryJPA;
@@ -28,6 +31,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 
 @Service
@@ -68,6 +75,8 @@ public class AccountHandlerService {
             EnvolvedLists envolvedLists = psFeign.getUserGames(new PSGamesRequestDTO(UserPSN.getAccountId()));
             guardarGames(envolvedLists);
             guardarProperties(envolvedLists);
+            //SteamGame[] steamGames = steamFeign.getUserGames(new SteamGamesRequestDTO(handlerCreate.getSteamId()));
+            //saveSteamGames(steamGames);
             AccountHandler handler = AccountHandler.createAH(handlerCreate, appuser);
             System.out.println(handler);
             guardarUsuarioEnBBDD(handler);
@@ -77,13 +86,38 @@ public class AccountHandlerService {
         throw new UserNotValid();
     }
 
+
+    public ResponseEntity<?> getAccountsByLogin(LoginRequest loginRequest) {
+        Appuser user = appuserRepositoryJPA.findByUsernameAndPassword(
+                loginRequest.getUsername(), loginRequest.getPassword());
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario o contraseña incorrectos");
+        }
+
+        List<AccountHandler> handlers = accountHandlerRepositoryJPA.findById_user(user);
+        return ResponseEntity.ok(handlers);
+    }
+
+    private void saveSteamGames(SteamGame[] steamGames) {
+        for(SteamGame game : steamGames){
+            try{
+                steamGameRepositoryJPA.save(game);
+            } catch (Exception e) {
+                System.out.println("Error -> " + e.getMessage());
+            }
+        }
+    }
+
     private void guardarGames(EnvolvedLists envolvedLists) {
         for(PlayStationGameDTO game : envolvedLists.getUserGames()){
             try{
                 gamePSRepositoryJPA.save(new GamePlaystation(game));
             }catch (Exception ignored){
+                System.out.println("Error -> " + ignored.getMessage());
             }
         }
+
     }
 
     private void guardarProperties(EnvolvedLists envolvedLists) {

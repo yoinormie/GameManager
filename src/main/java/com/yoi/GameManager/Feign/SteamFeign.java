@@ -1,5 +1,7 @@
 package com.yoi.GameManager.Feign;
 
+import com.yoi.GameManager.Components.SteamUserAgentInterceptor;
+import com.yoi.GameManager.Config.SteamFeignConfig;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.SteamRequest.SteamAchievementsRequestDTO;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.SteamRequest.SteamGamesRequestDTO;
 import com.yoi.GameManager.Model.DTO.RequestDTOs.SteamRequest.SteamUserRequestDTO;
@@ -10,7 +12,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "SteamFeign", url = "http://localhost:3000/steam")
+@FeignClient(name = "SteamFeign", url = "http://localhost:3000/steam", configuration = SteamFeignConfig.class)
 public interface SteamFeign {
     @PostMapping("/getsteamiduser")
     SteamProfile getUser(@RequestBody SteamUserRequestDTO steamUserRequestDTO);
